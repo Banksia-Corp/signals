@@ -2,4 +2,4 @@
 set -euo pipefail
 
 # Publish to npm using native npm CLI with provenance (OIDC Trusted Publishing)
-npm publish --access public --provenance
+npx --yes npm@latest publish --access public --provenance
