@@ -17,7 +17,7 @@ import { makeReactive } from "./proxy";
  *
  * @example
  * ```ts
- * import { signal, effect } from '@platform/signals';
+ * import { signal, effect } from '@banksia/signals';
  *
  * const count = signal(0);
  * effect(() => console.log('Count:', count.value)); // Logs: Count: 0
@@ -47,7 +47,7 @@ export interface Signal<T> {
  *
  * @example
  * ```ts
- * import { signal } from '@platform/signals';
+ * import { signal } from '@banksia/signals';
  *
  * const name = signal('Alice');
  * console.log(name.value); // 'Alice'

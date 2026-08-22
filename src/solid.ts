@@ -1,13 +1,13 @@
 /**
  * @module solid
- * SolidJS reactive integration bridge for `@platform/signals`.
+ * SolidJS reactive integration bridge for `@banksia/signals`.
  */
 
 import { createSignal, onCleanup } from "solid-js";
 import { effect } from "./core/effect";
 
 /**
- * Bridges a `@platform/signals` reactive object or domain store into SolidJS's fine-grained reactivity system.
+ * Bridges a `@banksia/signals` reactive object or domain store into SolidJS's fine-grained reactivity system.
  *
  * @remarks
  * Wraps the reactive proxy target inside a SolidJS signal accessor. When any tracked property on the target
@@ -20,7 +20,7 @@ import { effect } from "./core/effect";
  *
  * @example
  * ```tsx
- * import { createSolidSignalBridge } from '@platform/signals/solid';
+ * import { createSolidSignalBridge } from '@banksia/signals/solid';
  * import { counterStore } from './counter-store';
  *
  * export function CounterView() {

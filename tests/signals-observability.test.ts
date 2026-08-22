@@ -40,7 +40,7 @@ class UserStore {
   }
 }
 
-describe("@platform/signals - Reactivity Observability & Hooks Engine", () => {
+describe("@banksia/signals - Reactivity Observability & Hooks Engine", () => {
   it("Given active reactive nodes, when reading properties inside an effect, then onTrack lifecycle hooks capture dependency edges in real-time", () => {
     const user = new UserStore(
       { name: "Alice", email: "alice@example.com", age: 30 },

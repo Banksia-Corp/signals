@@ -38,7 +38,7 @@ class UserStore {
   }
 }
 
-describe("@platform/signals/devtools - Chrome DevTools MCP Bridge Adapter", () => {
+describe("@banksia/signals/devtools - Chrome DevTools MCP Bridge Adapter", () => {
   beforeEach(() => {
     disconnectDevTools();
   });

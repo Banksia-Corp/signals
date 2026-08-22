@@ -1,6 +1,6 @@
 /**
  * @module vanilla
- * Vanilla JavaScript DOM bindings and synchronization helpers for `@platform/signals`.
+ * Vanilla JavaScript DOM bindings and synchronization helpers for `@banksia/signals`.
  */
 
 import { effect } from "./core/effect";
@@ -19,7 +19,7 @@ import { effect } from "./core/effect";
  *
  * @example
  * ```ts
- * import { bindDOM, makeReactive } from '@platform/signals/vanilla';
+ * import { bindDOM, makeReactive } from '@banksia/signals/vanilla';
  *
  * const state = makeReactive({ active: false });
  * const btn = document.querySelector('button')!;
@@ -49,7 +49,7 @@ export function bindDOM<T extends Element>(
  *
  * @example
  * ```ts
- * import { bindText, signal } from '@platform/signals/vanilla';
+ * import { bindText, signal } from '@banksia/signals/vanilla';
  *
  * const count = signal(0);
  * const span = document.querySelector('#counter-display') as HTMLElement;
