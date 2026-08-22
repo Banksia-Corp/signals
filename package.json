@@ -1,6 +1,6 @@
 {
   "name": "@banksia/signals",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "packageManager": "pnpm@10.28.0",
   "description": "High-performance, Proxy-based fine-grained reactive state framework with multi-framework adapters (React, Lit, SolidJS, Vanilla DOM) and Chrome DevTools MCP observability",
   "type": "module",
