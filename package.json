@@ -71,6 +71,7 @@
     }
   },
   "devDependencies": {
+    "@changesets/changelog-git": "^1.0.0",
     "@changesets/cli": "^2.27.1",
     "@rslib/core": "^0.23.2",
     "@types/node": "^26.2.0",
