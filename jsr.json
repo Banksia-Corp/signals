@@ -1,0 +1,13 @@
+{
+  "name": "@banksia/signals",
+  "version": "0.0.0",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./react": "./src/react.ts",
+    "./lit": "./src/lit.ts",
+    "./solid": "./src/solid.ts",
+    "./vanilla": "./src/vanilla.ts",
+    "./devtools": "./src/devtools.ts"
+  }
+}
