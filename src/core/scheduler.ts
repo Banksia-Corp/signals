@@ -90,7 +90,7 @@ const onReactionCallbacks: Array<(sub: Subscriber) => void> = [];
  *
  * @example
  * ```ts
- * import { registerOnReaction } from '@platform/signals';
+ * import { registerOnReaction } from '@banksia/signals';
  *
  * const unsubscribe = registerOnReaction((subscriber) => {
  *   console.log('Reaction triggered for:', subscriber.name);
@@ -179,7 +179,7 @@ export function flushBatch(): void {
  *
  * @example
  * ```ts
- * import { signal, effect, batch } from '@platform/signals';
+ * import { signal, effect, batch } from '@banksia/signals';
  *
  * const a = signal(1);
  * const b = signal(2);

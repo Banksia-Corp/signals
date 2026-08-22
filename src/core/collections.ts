@@ -39,7 +39,7 @@ export type MakeReactiveFn = <T>(target: T) => T;
  *
  * @example
  * ```ts
- * import { makeReactive, effect } from '@platform/signals';
+ * import { makeReactive, effect } from '@banksia/signals';
  *
  * const items = makeReactive(['Apple', 'Banana']);
  * effect(() => console.log('Item count:', items.length)); // Logs: Item count: 2
@@ -139,7 +139,7 @@ export function createArrayProxy<T>(
  *
  * @example
  * ```ts
- * import { makeReactive, effect } from '@platform/signals';
+ * import { makeReactive, effect } from '@banksia/signals';
  *
  * const users = makeReactive(new Map<string, string>());
  * effect(() => console.log('User alice:', users.get('alice'))); // Logs: User alice: undefined
@@ -291,7 +291,7 @@ export function createMapProxy<K, V>(
  *
  * @example
  * ```ts
- * import { makeReactive, effect } from '@platform/signals';
+ * import { makeReactive, effect } from '@banksia/signals';
  *
  * const tags = makeReactive(new Set<string>(['alpha']));
  * effect(() => console.log('Has beta tag:', tags.has('beta'))); // Logs: Has beta tag: false

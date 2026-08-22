@@ -1,6 +1,6 @@
 /**
  * @module react
- * React integration adapters, hooks, and Higher-Order Components for `@platform/signals`.
+ * React integration adapters, hooks, and Higher-Order Components for `@banksia/signals`.
  */
 
 import React, {
@@ -28,7 +28,7 @@ import { computed, ReadonlySignal } from "./core/computed";
  * @example
  * ```tsx
  * import React from 'react';
- * import { useReactive } from '@platform/signals/react';
+ * import { useReactive } from '@banksia/signals/react';
  * import { userStore } from './user-store';
  *
  * export const UserHeader: React.FC = () => {
@@ -66,7 +66,7 @@ export function useReactive<T extends object>(target: T): T {
  * @example
  * ```tsx
  * import React from 'react';
- * import { observer } from '@platform/signals/react';
+ * import { observer } from '@banksia/signals/react';
  * import { cartStore } from './cart-store';
  *
  * export const CartCount = observer(() => {
@@ -118,7 +118,7 @@ export function observer<P extends object>(
  * @example
  * ```tsx
  * import React from 'react';
- * import { useSignal } from '@platform/signals/react';
+ * import { useSignal } from '@banksia/signals/react';
  *
  * export const Counter: React.FC = () => {
  *   const count = useSignal(0);
@@ -149,7 +149,7 @@ export function useSignal<T>(initialValue: T): Signal<T> {
  * @example
  * ```tsx
  * import React from 'react';
- * import { useSignal, useComputed } from '@platform/signals/react';
+ * import { useSignal, useComputed } from '@banksia/signals/react';
  *
  * export const FullNameView: React.FC = () => {
  *   const firstName = useSignal('Ada');

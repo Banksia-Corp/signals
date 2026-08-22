@@ -1,6 +1,6 @@
 /**
  * @module lit
- * Lit element integration controller for `@platform/signals`.
+ * Lit element integration controller for `@banksia/signals`.
  */
 
 import { effect } from "./core/effect";
@@ -58,7 +58,7 @@ export interface ReactiveController {
  * ```ts
  * import { LitElement, html } from 'lit';
  * import { customElement } from 'lit/decorators.js';
- * import { SignalsController } from '@platform/signals/lit';
+ * import { SignalsController } from '@banksia/signals/lit';
  * import { counterStore } from './counter-store';
  *
  * @customElement('counter-view')

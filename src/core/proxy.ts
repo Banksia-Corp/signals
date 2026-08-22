@@ -24,7 +24,7 @@ const rawCache = new WeakSet<object>();
  *
  * @example
  * ```ts
- * import { makeReactive, isReactive } from '@platform/signals';
+ * import { makeReactive, isReactive } from '@banksia/signals';
  *
  * const state = { count: 0 };
  * const reactiveState = makeReactive(state);
@@ -54,7 +54,7 @@ export function isReactive(target: unknown): boolean {
  *
  * @example
  * ```ts
- * import { makeReactive, toRaw } from '@platform/signals';
+ * import { makeReactive, toRaw } from '@banksia/signals';
  *
  * const raw = { user: 'Alice' };
  * const proxied = makeReactive(raw);
@@ -91,7 +91,7 @@ export function toRaw<T>(target: T): T {
  *
  * @example
  * ```ts
- * import { makeReactive, effect } from '@platform/signals';
+ * import { makeReactive, effect } from '@banksia/signals';
  *
  * // 1. Plain Object
  * const user = makeReactive({ name: 'Alice', age: 30 });

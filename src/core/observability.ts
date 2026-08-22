@@ -97,7 +97,7 @@ export interface BatchStats {
  *
  * @example
  * ```ts
- * import { registerReactivityHooks } from '@platform/signals';
+ * import { registerReactivityHooks } from '@banksia/signals';
  *
  * const unregister = registerReactivityHooks({
  *   onTrack(source, consumer) {
@@ -319,7 +319,7 @@ function updateHookCounts(hooks: ReactivityHooks, delta: 1 | -1): void {
  *
  * @example
  * ```ts
- * import { registerReactivityHooks } from '@platform/signals';
+ * import { registerReactivityHooks } from '@banksia/signals';
  *
  * const unsubscribe = registerReactivityHooks({
  *   onNotify(source, change) {
@@ -354,7 +354,7 @@ export function registerReactivityHooks(hooks: ReactivityHooks): () => void {
  *
  * @example
  * ```ts
- * import { observe, makeReactive } from '@platform/signals';
+ * import { observe, makeReactive } from '@banksia/signals';
  *
  * const user = makeReactive({ name: 'Alice' });
  * const unsubscribe = observe(user, {
@@ -398,7 +398,7 @@ export function observe<T extends object>(
  *
  * @example
  * ```ts
- * import { createReactivityHub } from '@platform/signals';
+ * import { createReactivityHub } from '@banksia/signals';
  *
  * const hub = createReactivityHub({
  *   filter: (source) => !source.meta.isPrivate,
@@ -740,7 +740,7 @@ export function triggerMutation(
  *
  * @example
  * ```ts
- * import { makeReactive, effect, getDependencyGraph } from '@platform/signals';
+ * import { makeReactive, effect, getDependencyGraph } from '@banksia/signals';
  *
  * const state = makeReactive({ a: 1, b: 2 });
  * effect(() => console.log(state.a));
@@ -808,7 +808,7 @@ let debugLoggerUnsub: (() => void) | null = null;
  *
  * @example
  * ```ts
- * import { configureSignalsDebug } from '@platform/signals';
+ * import { configureSignalsDebug } from '@banksia/signals';
  *
  * configureSignalsDebug({
  *   enableLogging: true,

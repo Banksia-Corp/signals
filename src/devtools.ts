@@ -745,7 +745,7 @@ export function getDevToolsBridge(options?: DevToolsOptions): DevToolsBridge {
  *
  * @example
  * ```ts
- * import { initDevTools } from '@platform/signals/devtools';
+ * import { initDevTools } from '@banksia/signals/devtools';
  *
  * initDevTools({
  *   maxBufferSize: 500,

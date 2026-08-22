@@ -12,11 +12,11 @@
  * - **Observability Pipeline**: {@link registerReactivityHooks}, {@link observe}, and {@link createReactivityHub} enable un-opinionated telemetry, profiling, and DevTools integration.
  *
  * ## Subpath Exports
- * - `@platform/signals` (or `signals`): Main entrypoint exposing core reactivity, proxies, and observability.
- * - `@platform/signals/react` (or `signals/react`): React integration hooks (`useReactive`, `useSignal`, `useComputed`, `observer`).
- * - `@platform/signals/lit` (or `signals/lit`): Lit element controller (`SignalsController`).
- * - `@platform/signals/solid` (or `signals/solid`): SolidJS reactive bridge (`createSolidSignalBridge`).
- * - `@platform/signals/vanilla` (or `signals/vanilla`): Vanilla DOM synchronization helpers (`bindDOM`, `bindText`).
+ * - `@banksia/signals` (or `signals`): Main entrypoint exposing core reactivity, proxies, and observability.
+ * - `@banksia/signals/react` (or `signals/react`): React integration hooks (`useReactive`, `useSignal`, `useComputed`, `observer`).
+ * - `@banksia/signals/lit` (or `signals/lit`): Lit element controller (`SignalsController`).
+ * - `@banksia/signals/solid` (or `signals/solid`): SolidJS reactive bridge (`createSolidSignalBridge`).
+ * - `@banksia/signals/vanilla` (or `signals/vanilla`): Vanilla DOM synchronization helpers (`bindDOM`, `bindText`).
  *
  * @packageDocumentation
  */

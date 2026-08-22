@@ -186,7 +186,7 @@ class ComputedImpl<T> implements Subscriber {
  *
  * @example
  * ```ts
- * import { signal, computed } from '@platform/signals';
+ * import { signal, computed } from '@banksia/signals';
  *
  * const firstName = signal('Ada');
  * const lastName = signal('Lovelace');

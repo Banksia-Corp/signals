@@ -66,7 +66,7 @@ class ClassCollectionStore {
   }
 }
 
-describe("@platform/signals - Core BDD Tests", () => {
+describe("@banksia/signals - Core BDD Tests", () => {
   it("Given a domain object returning makeReactive(this) in constructor, when property assignments occur, then subscribers react dynamically to mutations", () => {
     const user = new UserStore(
       { name: "Alice", email: "alice@example.com" },

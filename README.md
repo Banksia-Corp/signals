@@ -1,4 +1,4 @@
-# `@platform/signals`
+# `@banksia/signals`
 
 > Fine-grained, zero-boilerplate reactivity for modern TypeScript and multi-framework UIs.
 
@@ -22,15 +22,15 @@
   - [Transaction Batching (`batch` & `flushBatch`)](#transaction-batching-batch--flushbatch)
 - [Multi-Tier Domain Store Architecture](#multi-tier-domain-store-architecture)
 - [Framework Adapters](#framework-adapters)
-  - [React (`@platform/signals/react`)](#react-platformsignalsreact)
-  - [Lit (`@platform/signals/lit`)](#lit-platformsignalslit)
-  - [SolidJS (`@platform/signals/solid`)](#solidjs-platformsignalssolid)
-  - [Vanilla DOM (`@platform/signals/vanilla`)](#vanilla-dom-platformsignalsvanilla)
+  - [React (`@banksia/signals/react`)](#react-banksiasignalsreact)
+  - [Lit (`@banksia/signals/lit`)](#lit-banksiasignalslit)
+  - [SolidJS (`@banksia/signals/solid`)](#solidjs-banksiasignalssolid)
+  - [Vanilla DOM (`@banksia/signals/vanilla`)](#vanilla-dom-banksiasignalsvanilla)
 - [Observability, Telemetry & DevTools Ecosystem](#observability-telemetry--devtools-ecosystem)
   - [Primitive-First Lifecycle Hooks (`registerReactivityHooks`)](#primitive-first-lifecycle-hooks-registerreactivityhooks)
   - [Target-Scoped Observation (`observe`)](#target-scoped-observation-observe)
   - [Dedicated Telemetry Hubs (`createReactivityHub`)](#dedicated-telemetry-hubs-createreactivityhub)
-  - [Chrome DevTools MCP & AI Agent Bridge (`@platform/signals/devtools`)](#chrome-devtools-mcp--ai-agent-bridge-platformsignalsdevtools)
+  - [Chrome DevTools MCP & AI Agent Bridge (`@banksia/signals/devtools`)](#chrome-devtools-mcp--ai-agent-bridge-banksiasignalsdevtools)
   - [Chrome DevTools MCP Recipes (`evaluate_script`)](#chrome-devtools-mcp-recipes-evaluate_script)
 - [API Reference Matrix](#api-reference-matrix)
 
@@ -44,7 +44,7 @@ Modern web applications and domain-driven systems often struggle with common sta
 - **Decorator Lock-In & Runtime Magic**: Non-standard decorator syntax and opaque compiler transforms bind domain models to proprietary library runtimes.
 - **Subscription Leaks & Operator Complexity**: Manual stream lifecycle management introduces steep learning curves, operator sprawl, and accidental memory leaks.
 
-`@platform/signals` was created to deliver **pure TypeScript reactivity without framework lock-in or cognitive overhead**.
+`@banksia/signals` was created to deliver **pure TypeScript reactivity without framework lock-in or cognitive overhead**.
 
 ### The Five Pillars
 
@@ -71,10 +71,10 @@ flowchart TD
     end
 
     subgraph ViewAdapters ["UI & Consumer Layer"]
-        React["@platform/signals/react"]
-        Lit["@platform/signals/lit"]
-        Solid["@platform/signals/solid"]
-        Vanilla["@platform/signals/vanilla"]
+        React["@banksia/signals/react"]
+        Lit["@banksia/signals/lit"]
+        Solid["@banksia/signals/solid"]
+        Vanilla["@banksia/signals/vanilla"]
         MCP["Chrome DevTools MCP / AI Agents"]
     end
 
@@ -88,30 +88,45 @@ flowchart TD
     Telemetry --> MCP
 ```
 
----
-
 ## Installation & Subpath Exports
 
-In your application's `package.json`:
+```bash
+# pnpm
+pnpm add @banksia/signals
+
+# npm
+npm install @banksia/signals
+
+# yarn
+yarn add @banksia/signals
+
+# bun
+bun add @banksia/signals
+
+# JSR
+npx jsr add @banksia/signals
+```
+
+Or in your application's `package.json`:
 
 ```json
 {
   "dependencies": {
-    "@platform/signals": "workspace:*"
+    "@banksia/signals": "workspace:*"
   }
 }
 ```
 
 ### Export Subpaths
 
-| Subpath                          | Purpose                          | Key Exports                                                                                                                                               |
-| :------------------------------- | :------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`@platform/signals`**          | Core reactive engine & telemetry | `makeReactive`, `isReactive`, `toRaw`, `signal`, `computed`, `effect`, `batch`, `flushBatch`, `registerReactivityHooks`, `observe`, `createReactivityHub` |
-| **`@platform/signals/react`**    | React integration hooks & HOCs   | `useReactive`, `observer`, `useSignal`, `useComputed`                                                                                                     |
-| **`@platform/signals/lit`**      | Lit element lifecycle controller | `SignalsController`                                                                                                                                       |
-| **`@platform/signals/solid`**    | SolidJS reactive signal bridge   | `createSolidSignalBridge`                                                                                                                                 |
-| **`@platform/signals/vanilla`**  | Zero-framework DOM bindings      | `bindDOM`, `bindText`                                                                                                                                     |
-| **`@platform/signals/devtools`** | Chrome DevTools MCP & inspection | `initDevTools`, `connectDevTools`, `disconnectDevTools`, `getDevToolsBridge`, `DevToolsBridge`                                                            |
+| Subpath                         | Purpose                          | Key Exports                                                                                                                                               |
+| :------------------------------ | :------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`@banksia/signals`**          | Core reactive engine & telemetry | `makeReactive`, `isReactive`, `toRaw`, `signal`, `computed`, `effect`, `batch`, `flushBatch`, `registerReactivityHooks`, `observe`, `createReactivityHub` |
+| **`@banksia/signals/react`**    | React integration hooks & HOCs   | `useReactive`, `observer`, `useSignal`, `useComputed`                                                                                                     |
+| **`@banksia/signals/lit`**      | Lit element lifecycle controller | `SignalsController`                                                                                                                                       |
+| **`@banksia/signals/solid`**    | SolidJS reactive signal bridge   | `createSolidSignalBridge`                                                                                                                                 |
+| **`@banksia/signals/vanilla`**  | Zero-framework DOM bindings      | `bindDOM`, `bindText`                                                                                                                                     |
+| **`@banksia/signals/devtools`** | Chrome DevTools MCP & inspection | `initDevTools`, `connectDevTools`, `disconnectDevTools`, `getDevToolsBridge`, `DevToolsBridge`                                                            |
 
 ---
 
@@ -122,7 +137,7 @@ Let's build a realistic e-commerce shopping cart domain store, complete with nes
 ### 1. Define the Reactive Domain Store
 
 ```ts
-import { makeReactive, computed } from "@platform/signals";
+import { makeReactive, computed } from "@banksia/signals";
 
 export interface CartItem {
   id: string;
@@ -185,7 +200,7 @@ export const cartStore = new CartStore();
 
 ```tsx
 import React from "react";
-import { useReactive } from "@platform/signals/react";
+import { useReactive } from "@banksia/signals/react";
 import { cartStore } from "./cart-store";
 
 export const ShoppingCartView: React.FC = () => {
@@ -238,7 +253,7 @@ export const ShoppingCartView: React.FC = () => {
 - **Raw Extraction**: `toRaw(proxy)` retrieves the underlying raw object for serialization, hashing, or third-party libraries.
 
 ```ts
-import { makeReactive, isReactive, toRaw } from "@platform/signals";
+import { makeReactive, isReactive, toRaw } from "@banksia/signals";
 
 const rawData = { user: "Alice", settings: { theme: "dark" } };
 const reactiveData = makeReactive(rawData);
@@ -252,10 +267,10 @@ console.log(toRaw(reactiveData) === rawData); // true
 
 ### Standalone Primitives: `signal`, `computed`, & `effect`
 
-For granular, standalone values, `@platform/signals` provides lightweight signal primitives:
+For granular, standalone values, `@banksia/signals` provides lightweight signal primitives:
 
 ```ts
-import { signal, computed, effect } from "@platform/signals";
+import { signal, computed, effect } from "@banksia/signals";
 
 // 1. Primitive Signal
 const count = signal(0);
@@ -294,7 +309,7 @@ Mutating native JavaScript collections triggers targeted, key-level or length-le
 | **`Set`**   | `.has(value)`, `.size`, iteration (`values`, `forEach`, `Symbol.iterator`)            | `.add(val)`, `.delete(val)`, `.clear()`                                                             |
 
 ```ts
-import { makeReactive, effect } from "@platform/signals";
+import { makeReactive, effect } from "@banksia/signals";
 
 const permissions = makeReactive(new Set<string>(["read"]));
 const userRoles = makeReactive(new Map<string, string>([["alice", "admin"]]));
@@ -318,7 +333,7 @@ userRoles.set("alice", "superadmin"); // Triggers userRoles effect
 Coalesce multiple synchronous property mutations into a single reaction turn:
 
 ```ts
-import { batch, flushBatch } from "@platform/signals";
+import { batch, flushBatch } from "@banksia/signals";
 
 // Explicit Batch: delays effect runs until the callback finishes
 batch(() => {
@@ -335,10 +350,10 @@ flushBatch();
 
 ## Multi-Tier Domain Store Architecture
 
-`@platform/signals` excels in complex enterprise domain models requiring Root Stores, Child Stores, and cross-store computed graphs:
+`@banksia/signals` excels in complex enterprise domain models requiring Root Stores, Child Stores, and cross-store computed graphs:
 
 ```ts
-import { makeReactive, computed, effect } from "@platform/signals";
+import { makeReactive, computed, effect } from "@banksia/signals";
 
 export class UserStore {
   public name = "Alice";
@@ -390,7 +405,7 @@ root.user.tier = "standard";
 
 ## Framework Adapters
 
-### React (`@platform/signals/react`)
+### React (`@banksia/signals/react`)
 
 Provides hooks and Higher-Order Components tailored for React 18 & 19:
 
@@ -401,7 +416,7 @@ import {
   observer,
   useSignal,
   useComputed,
-} from "@platform/signals/react";
+} from "@banksia/signals/react";
 import { rootStore } from "./stores/root-store";
 
 // 1. Hook: Subscribe component to reactive store
@@ -434,14 +449,14 @@ export const QuickCounter: React.FC = () => {
 
 ---
 
-### Lit (`@platform/signals/lit`)
+### Lit (`@banksia/signals/lit`)
 
 Integrates with Lit elements through `SignalsController`, managing subscription lifecycles automatically:
 
 ```ts
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
-import { SignalsController } from "@platform/signals/lit";
+import { SignalsController } from "@banksia/signals/lit";
 import { rootStore } from "./stores/root-store";
 
 @customElement("order-summary-widget")
@@ -462,12 +477,12 @@ export class OrderSummaryWidget extends LitElement {
 
 ---
 
-### SolidJS (`@platform/signals/solid`)
+### SolidJS (`@banksia/signals/solid`)
 
 Bridges reactive proxy targets into SolidJS's fine-grained JSX accessor system:
 
 ```tsx
-import { createSolidSignalBridge } from "@platform/signals/solid";
+import { createSolidSignalBridge } from "@banksia/signals/solid";
 import { rootStore } from "./stores/root-store";
 
 export function SolidDashboard() {
@@ -484,12 +499,12 @@ export function SolidDashboard() {
 
 ---
 
-### Vanilla DOM (`@platform/signals/vanilla`)
+### Vanilla DOM (`@banksia/signals/vanilla`)
 
 Lightweight, zero-dependency helpers for native DOM scripting and micro-frontends:
 
 ```ts
-import { bindText, bindDOM } from "@platform/signals/vanilla";
+import { bindText, bindDOM } from "@banksia/signals/vanilla";
 import { rootStore } from "./stores/root-store";
 
 // Bind text content directly to reactive expressions
@@ -511,7 +526,7 @@ const unbindDOM = bindDOM(submitBtn, (btn) => {
 
 ## Observability, Telemetry & DevTools Ecosystem
 
-`@platform/signals` treats observability as a first-class architectural primitive, providing low-level lifecycle hooks, targeted instance auditing, and a browser DevTools bridge.
+`@banksia/signals` treats observability as a first-class architectural primitive, providing low-level lifecycle hooks, targeted instance auditing, and a browser DevTools bridge.
 
 ```mermaid
 flowchart LR
@@ -528,7 +543,7 @@ flowchart LR
 Attach global telemetry pipelines (OpenTelemetry APM, custom metrics, error trackers):
 
 ```ts
-import { registerReactivityHooks } from "@platform/signals";
+import { registerReactivityHooks } from "@banksia/signals";
 
 const unregister = registerReactivityHooks({
   // Fired when a consumer (computed/effect) tracks a dependency
@@ -572,7 +587,7 @@ unregister();
 Observe mutations and reactivity on a specific store or object instance without global noise:
 
 ```ts
-import { observe } from "@platform/signals";
+import { observe } from "@banksia/signals";
 import { cartStore } from "./cart-store";
 
 const stopObserving = observe(cartStore, {
@@ -595,7 +610,7 @@ const stopObserving = observe(cartStore, {
 Create isolated pipelines with custom filter predicates:
 
 ```ts
-import { createReactivityHub } from "@platform/signals";
+import { createReactivityHub } from "@banksia/signals";
 
 const analyticsHub = createReactivityHub({
   filter: (source) => !source.meta.isPrivate,
@@ -613,14 +628,14 @@ analyticsHub.use({
 
 ---
 
-### Chrome DevTools MCP & AI Agent Bridge (`@platform/signals/devtools`)
+### Chrome DevTools MCP & AI Agent Bridge (`@banksia/signals/devtools`)
 
 The DevTools bridge binds to `window.__BANKSIA_SIGNALS_DEVTOOLS__` (and `globalThis.__BANKSIA_SIGNALS_DEVTOOLS__`), allowing browser DevTools and autonomous AI agents interacting with the **[Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp)** to inspect state, trace dependency graphs, and profile execution performance.
 
 #### Initializing in Your Application
 
 ```ts
-import { initDevTools } from "@platform/signals/devtools";
+import { initDevTools } from "@banksia/signals/devtools";
 import { rootStore } from "./stores/root-store";
 
 // Initialize runtime bridge
@@ -729,25 +744,25 @@ _Output:_
 
 ## API Reference Matrix
 
-| Export                        | Module Subpath               | Type / Signature                                       | Description                                                     |
-| :---------------------------- | :--------------------------- | :----------------------------------------------------- | :-------------------------------------------------------------- |
-| **`makeReactive`**            | `@platform/signals`          | `<T>(target: T): T`                                    | Wraps object, class, Array, Set, or Map in deep reactive proxy. |
-| **`isReactive`**              | `@platform/signals`          | `(target: unknown): boolean`                           | Returns true if the target is an active reactive proxy.         |
-| **`toRaw`**                   | `@platform/signals`          | `<T>(target: T): T`                                    | Unwraps a reactive proxy to its underlying raw object.          |
-| **`signal`**                  | `@platform/signals`          | `<T>(initial: T): Signal<T>`                           | Creates a standalone reactive signal container.                 |
-| **`computed`**                | `@platform/signals`          | `<T>(getter: () => T): ReadonlySignal<T>`              | Creates a lazy, memoized computed derived signal.               |
-| **`effect`**                  | `@platform/signals`          | `(fn: EffectFn): DisposeFn`                            | Creates an auto-tracking reactive side-effect listener.         |
-| **`batch`**                   | `@platform/signals`          | `<T>(fn: () => T): T`                                  | Groups state mutations into an atomic batch turn.               |
-| **`flushBatch`**              | `@platform/signals`          | `(): void`                                             | Synchronously flushes pending microtask reactions.              |
-| **`registerReactivityHooks`** | `@platform/signals`          | `(hooks: ReactivityHooks): () => void`                 | Attaches global reactivity telemetry lifecycle hooks.           |
-| **`observe`**                 | `@platform/signals`          | `(target: object, hooks: ReactivityHooks): () => void` | Scopes reactivity lifecycle observation to a target.            |
-| **`createReactivityHub`**     | `@platform/signals`          | `(options?: HubOptions): ReactivityHub`                | Creates an isolated, filterable telemetry hub.                  |
-| **`useReactive`**             | `@platform/signals/react`    | `<T extends object>(target: T): T`                     | React hook subscribing host component to reactive store.        |
-| **`observer`**                | `@platform/signals/react`    | `<P>(Component: ComponentType<P>): FC<P>`              | React HOC transforming component into reactive observer.        |
-| **`useSignal`**               | `@platform/signals/react`    | `<T>(initial: T): Signal<T>`                           | React hook memoizing a component-local signal.                  |
-| **`useComputed`**             | `@platform/signals/react`    | `<T>(getter: () => T): ReadonlySignal<T>`              | React hook memoizing a component-local computed signal.         |
-| **`SignalsController`**       | `@platform/signals/lit`      | `class SignalsController`                              | Lit `ReactiveController` binding reactive stores to elements.   |
-| **`createSolidSignalBridge`** | `@platform/signals/solid`    | `<T>(target: T): () => T`                              | Bridges reactive store into SolidJS signal accessor.            |
-| **`bindDOM`**                 | `@platform/signals/vanilla`  | `(el: Element, updater: (el) => void): () => void`     | Synchronizes DOM element attributes with reactive state.        |
-| **`bindText`**                | `@platform/signals/vanilla`  | `(el: HTMLElement, getter: () => string): () => void`  | Synchronizes element `textContent` with reactive expression.    |
-| **`initDevTools`**            | `@platform/signals/devtools` | `(options?: DevToolsOptions): DevToolsBridge`          | Attaches DevTools inspection bridge to `window`.                |
+| Export                        | Module Subpath              | Type / Signature                                       | Description                                                     |
+| :---------------------------- | :-------------------------- | :----------------------------------------------------- | :-------------------------------------------------------------- |
+| **`makeReactive`**            | `@banksia/signals`          | `<T>(target: T): T`                                    | Wraps object, class, Array, Set, or Map in deep reactive proxy. |
+| **`isReactive`**              | `@banksia/signals`          | `(target: unknown): boolean`                           | Returns true if the target is an active reactive proxy.         |
+| **`toRaw`**                   | `@banksia/signals`          | `<T>(target: T): T`                                    | Unwraps a reactive proxy to its underlying raw object.          |
+| **`signal`**                  | `@banksia/signals`          | `<T>(initial: T): Signal<T>`                           | Creates a standalone reactive signal container.                 |
+| **`computed`**                | `@banksia/signals`          | `<T>(getter: () => T): ReadonlySignal<T>`              | Creates a lazy, memoized computed derived signal.               |
+| **`effect`**                  | `@banksia/signals`          | `(fn: EffectFn): DisposeFn`                            | Creates an auto-tracking reactive side-effect listener.         |
+| **`batch`**                   | `@banksia/signals`          | `<T>(fn: () => T): T`                                  | Groups state mutations into an atomic batch turn.               |
+| **`flushBatch`**              | `@banksia/signals`          | `(): void`                                             | Synchronously flushes pending microtask reactions.              |
+| **`registerReactivityHooks`** | `@banksia/signals`          | `(hooks: ReactivityHooks): () => void`                 | Attaches global reactivity telemetry lifecycle hooks.           |
+| **`observe`**                 | `@banksia/signals`          | `(target: object, hooks: ReactivityHooks): () => void` | Scopes reactivity lifecycle observation to a target.            |
+| **`createReactivityHub`**     | `@banksia/signals`          | `(options?: HubOptions): ReactivityHub`                | Creates an isolated, filterable telemetry hub.                  |
+| **`useReactive`**             | `@banksia/signals/react`    | `<T extends object>(target: T): T`                     | React hook subscribing host component to reactive store.        |
+| **`observer`**                | `@banksia/signals/react`    | `<P>(Component: ComponentType<P>): FC<P>`              | React HOC transforming component into reactive observer.        |
+| **`useSignal`**               | `@banksia/signals/react`    | `<T>(initial: T): Signal<T>`                           | React hook memoizing a component-local signal.                  |
+| **`useComputed`**             | `@banksia/signals/react`    | `<T>(getter: () => T): ReadonlySignal<T>`              | React hook memoizing a component-local computed signal.         |
+| **`SignalsController`**       | `@banksia/signals/lit`      | `class SignalsController`                              | Lit `ReactiveController` binding reactive stores to elements.   |
+| **`createSolidSignalBridge`** | `@banksia/signals/solid`    | `<T>(target: T): () => T`                              | Bridges reactive store into SolidJS signal accessor.            |
+| **`bindDOM`**                 | `@banksia/signals/vanilla`  | `(el: Element, updater: (el) => void): () => void`     | Synchronizes DOM element attributes with reactive state.        |
+| **`bindText`**                | `@banksia/signals/vanilla`  | `(el: HTMLElement, getter: () => string): () => void`  | Synchronizes element `textContent` with reactive expression.    |
+| **`initDevTools`**            | `@banksia/signals/devtools` | `(options?: DevToolsOptions): DevToolsBridge`          | Attaches DevTools inspection bridge to `window`.                |

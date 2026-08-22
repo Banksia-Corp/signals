@@ -139,7 +139,7 @@ class EffectImpl implements Subscriber {
  *
  * @example
  * ```ts
- * import { signal, effect } from '@platform/signals';
+ * import { signal, effect } from '@banksia/signals';
  *
  * const count = signal(0);
  * const dispose = effect(() => {

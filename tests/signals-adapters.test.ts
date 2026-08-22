@@ -15,7 +15,7 @@ class TestCounter {
   }
 }
 
-describe("@platform/signals - Framework Adapters BDD Tests", () => {
+describe("@banksia/signals - Framework Adapters BDD Tests", () => {
   it("Behavior: Vanilla DOM Binding - Given a DOM element bound to reactive state via bindText, when state updates, then element textContent updates automatically", () => {
     // Mock DOM Element
     const fakeElement = { textContent: "" } as HTMLElement;
