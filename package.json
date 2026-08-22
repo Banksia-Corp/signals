@@ -1,0 +1,83 @@
+{
+  "name": "@banksia/signals",
+  "version": "0.0.0",
+  "description": "High-performance, Proxy-based fine-grained reactive state framework with multi-framework adapters (React, Lit, SolidJS, Vanilla DOM) and Chrome DevTools MCP observability",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/src/react.d.ts",
+      "import": "./dist/react.js"
+    },
+    "./lit": {
+      "types": "./dist/src/lit.d.ts",
+      "import": "./dist/lit.js"
+    },
+    "./solid": {
+      "types": "./dist/src/solid.d.ts",
+      "import": "./dist/solid.js"
+    },
+    "./vanilla": {
+      "types": "./dist/src/vanilla.d.ts",
+      "import": "./dist/vanilla.js"
+    },
+    "./devtools": {
+      "types": "./dist/src/devtools.d.ts",
+      "import": "./dist/devtools.js"
+    }
+  },
+  "types": "./dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch",
+    "format": "prettier --write .",
+    "lint": "prettier --check \"src/**/*\" \"tests/**/*\" README.md",
+    "test": "vitest run"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Banksia-Corp/signals.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Banksia-Corp/signals/issues"
+  },
+  "homepage": "https://github.com/Banksia-Corp/signals#readme",
+  "license": "MIT",
+  "peerDependencies": {
+    "lit": "^3.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "solid-js": "^1.9.0"
+  },
+  "peerDependenciesMeta": {
+    "lit": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "solid-js": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@rslib/core": "^0.23.2",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "lit": "^3.2.1",
+    "prettier": "^3.8.3",
+    "react": "^19.0.0",
+    "solid-js": "^1.9.5",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}
