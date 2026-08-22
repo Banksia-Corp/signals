@@ -5,31 +5,31 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/src/index.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
     "./react": {
-      "types": "./dist/src/react.d.ts",
+      "types": "./dist/react.d.ts",
       "import": "./dist/react.js"
     },
     "./lit": {
-      "types": "./dist/src/lit.d.ts",
+      "types": "./dist/lit.d.ts",
       "import": "./dist/lit.js"
     },
     "./solid": {
-      "types": "./dist/src/solid.d.ts",
+      "types": "./dist/solid.d.ts",
       "import": "./dist/solid.js"
     },
     "./vanilla": {
-      "types": "./dist/src/vanilla.d.ts",
+      "types": "./dist/vanilla.d.ts",
       "import": "./dist/vanilla.js"
     },
     "./devtools": {
-      "types": "./dist/src/devtools.d.ts",
+      "types": "./dist/devtools.d.ts",
       "import": "./dist/devtools.js"
     }
   },
-  "types": "./dist/src/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -38,7 +38,8 @@
     "dev": "rslib build --watch",
     "format": "prettier --write .",
     "lint": "prettier --check \"src/**/*\" \"tests/**/*\" README.md",
-    "test": "vitest run"
+    "test": "vitest run",
+    "release": "pnpm run build && changeset publish"
   },
   "publishConfig": {
     "access": "public"
