@@ -83,8 +83,13 @@ pnpm run format
 
 When collaborating with Google Antigravity or AI assistants:
 
-- Include the standard RFC 2822 Git trailer in commit message footers:
+- Include the standard RFC 2822 Git trailer in commit message footers with `ai@google.com`:
   ```text
-  Co-authored-by: Google Antigravity <antigravity@google.com>
+  Co-authored-by: Google Antigravity <ai@google.com>
+  ```
+- Or configure local repository identity when committing as an agent:
+  ```bash
+  git config user.name "Google Antigravity"
+  git config user.email "ai@google.com"
   ```
 - Retain the attribution checklist item and footer in `.github/pull_request_template.md` when raising Pull Requests.
