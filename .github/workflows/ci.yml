@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gates:
+    name: Quality Gates (Lint, Test, Build, Size, Docs)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check Formatting & Linting
+        run: pnpm run lint
+
+      - name: Run Test Suite
+        run: pnpm run test
+
+      - name: Build Package
+        run: pnpm run build
+
+      - name: Enforce Build Size Budgets
+        run: node scripts/check-size-budgets.mjs
+
+      - name: Verify Documentation Generation
+        run: pnpm run docs
