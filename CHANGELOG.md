@@ -1,5 +1,11 @@
 # @banksia/signals
 
+## 0.1.4
+
+### Patch Changes
+
+- [#39](https://github.com/Banksia-Corp/signals/pull/39) [`3ec83ae`](https://github.com/Banksia-Corp/signals/commit/3ec83aefe75d8c6fd5c593a76567b378d685ce6a) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Define `engines.node` specification and align repository toolchains to active Node.js 22 LTS.
+
 ## 0.1.3
 
 ### Patch Changes
