@@ -33,3 +33,8 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 - [ ] I have added a changeset via `pnpm changeset` (if introducing bug fixes, new features, or breaking changes)
 - [ ] New and existing unit tests pass locally with my changes
 - [ ] Any dependent changes have been merged and published in downstream modules
+- [ ] Co-authored with Google Antigravity (if AI-assisted)
+
+---
+
+🤖 _Co-authored with Google Antigravity_

@@ -55,7 +55,7 @@ pnpm changeset
 
 - **Clear Consumer Focus**: Explain _what_ changed and _why_ it matters to the developer consuming the package.
 - **Include Code Snippets for Breaking Changes**: If introducing a breaking change or deprecation, provide a short migration snippet.
-- **Refer to Related Issues**: Include issue or PR numbers if applicable (e.g., `Fixes #17`).
+- **Refer to Related Issues**: Include issue or PR numbers if applicable (e.g., `Fixes #17`). When using `@changesets/changelog-github`, PR links and author attributions are automatically enriched.
 
 _Example changeset summary:_
 
@@ -90,12 +90,12 @@ flowchart TD
     CheckPR -- Yes --> UpdatePR["Update pending release PR with new changelog & bumps"]
     OpenPR --> MaintainerMerge["Maintainer merges Release PR"]
     UpdatePR --> MaintainerMerge
-    MaintainerMerge --> PublishStep["Build, Publish to npm (with provenance), and Publish to JSR"]
+    MaintainerMerge --> PublishStep["Build, Publish to npm (with provenance), Publish to JSR, and Publish GitHub Releases"]
 ```
 
 1. **Continuous Aggregation**: When PRs with changesets merge to `main`, the Release action aggregates them into a release PR (`chore(release): version packages`).
 2. **Release Execution**: When the release PR is merged:
    - Package is built via `pnpm run build`.
-   - Published to **npm** with OIDC provenance via [`scripts/release-publish.sh`](../scripts/release-publish.sh).
+   - Published to **npm** with OIDC provenance via [`scripts/release-publish.sh`](../scripts/release-publish.sh) and `pnpm exec changeset publish`.
    - Published to **JSR** via `npx jsr publish`.
-   - GitHub releases and tags are created automatically.
+   - Official **GitHub Releases** and version tags (e.g. `@banksia/signals@X.Y.Z`) are automatically published to the repository with structured release notes extracted from `CHANGELOG.md` via `changesets/action@v1`.
