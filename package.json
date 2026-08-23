@@ -38,7 +38,7 @@
     "build": "rslib build",
     "dev": "rslib build --watch",
     "format": "prettier --write .",
-    "lint": "prettier --check \"src/**/*\" \"tests/**/*\" README.md",
+    "lint": "prettier --check \"src/**/*\" \"tests/**/*\" \"docs/**/*\" README.md AGENTS.md",
     "test": "vitest run",
     "release": "pnpm run build && changeset publish"
   },
