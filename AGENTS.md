@@ -8,6 +8,7 @@ For in-depth guides and policies, refer to the dedicated documentation:
 
 - **[Semantic Versioning & Changeset Workflow](./docs/versioning-and-changesets.md)**: Rules for when changesets are required, SemVer bump classifications (`major`, `minor`, `patch`), and release automation.
 - **[Development & Contributor Guidelines](./docs/development-guidelines.md)**: Zero-dependency core principles, memory leak prevention, fine-grained reactivity guarantees, and quality gate workflows.
+- **[Build Distribution & Bundling Audit](./docs/distribution-audit.md)**: Artifact packaging hygiene, bundling strategy evaluation, tree-shaking characteristics, and observability footprint benchmarks.
 
 ---
 
