@@ -25,7 +25,12 @@ export { makeReactive, isReactive, toRaw } from "./core/proxy";
 export { signal, type Signal } from "./core/signal";
 export { computed, type ReadonlySignal } from "./core/computed";
 export { effect, type EffectFn, type DisposeFn } from "./core/effect";
-export { batch, flushBatch, registerOnReaction } from "./core/scheduler";
+export {
+  batch,
+  flushBatch,
+  registerOnReaction,
+  type Subscriber,
+} from "./core/scheduler";
 export {
   registerReactivityHooks,
   observe,
