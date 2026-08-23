@@ -1,0 +1,27 @@
+# CODEOWNERS
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default global owner for all repository files
+* @luismiddleton
+
+# CI/CD Workflows & GitHub Configuration
+/.github/ @luismiddleton
+/.github/workflows/ @luismiddleton
+
+# Project Configuration & Build Scripts
+/scripts/ @luismiddleton
+/package.json @luismiddleton
+/pnpm-lock.yaml @luismiddleton
+/jsr.json @luismiddleton
+/rslib.config.ts @luismiddleton
+/vitest.config.ts @luismiddleton
+/tsconfig.json @luismiddleton
+
+# Core Reactivity Engine & Adapters
+/src/ @luismiddleton
+
+# Test Suites
+/tests/ @luismiddleton
+
+# Documentation
+/*.md @luismiddleton
