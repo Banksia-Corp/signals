@@ -76,3 +76,15 @@ pnpm run format
 
 - Whenever public APIs, subpath exports, or framework integrations are modified or added, update both [`README.md`](../README.md) and [`AGENTS.md`](../AGENTS.md).
 - Keep API matrix tables and code examples accurate and functional.
+
+---
+
+## 4. AI Pair-Programming & Attribution
+
+When collaborating with Google Antigravity or AI assistants:
+
+- Include the standard RFC 2822 Git trailer in commit message footers:
+  ```text
+  Co-authored-by: Google Antigravity <antigravity@google.com>
+  ```
+- Retain the attribution checklist item and footer in `.github/pull_request_template.md` when raising Pull Requests.
