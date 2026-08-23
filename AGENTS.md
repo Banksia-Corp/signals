@@ -9,6 +9,7 @@ For in-depth guides and policies, refer to the dedicated documentation:
 - **[Semantic Versioning & Changeset Workflow](./docs/versioning-and-changesets.md)**: Rules for when changesets are required, SemVer bump classifications (`major`, `minor`, `patch`), and release automation.
 - **[Development & Contributor Guidelines](./docs/development-guidelines.md)**: Zero-dependency core principles, memory leak prevention, fine-grained reactivity guarantees, and quality gate workflows.
 - **[Build Distribution & Bundling Audit](./docs/distribution-audit.md)**: Artifact packaging hygiene, bundling strategy evaluation, tree-shaking characteristics, and observability footprint benchmarks.
+- **[Reactivity Performance Benchmarks & Budgets](./docs/benchmarks.md)**: Runtime reactivity throughput, deep computed chains, diamond graph benchmarks, and performance budgets.
 
 ---
 
@@ -18,6 +19,7 @@ For in-depth guides and policies, refer to the dedicated documentation:
 - `pnpm run dev` - Build in watch mode
 - `pnpm run docs` - Generate API documentation via TypeDoc
 - `pnpm run test` - Run Vitest test suite
+- `pnpm run bench` - Run Vitest reactivity runtime performance benchmark suite
 - `pnpm run lint` - Check formatting and code style with Prettier
 - `pnpm run format` - Format code with Prettier
 - `pnpm run size` - Validate package distribution size budgets

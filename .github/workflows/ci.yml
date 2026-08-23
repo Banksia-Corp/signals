@@ -46,5 +46,8 @@ jobs:
       - name: Enforce Build Size Budgets
         run: node scripts/check-size-budgets.mjs
 
+      - name: Run Reactivity Benchmarks
+        run: pnpm run bench
+
       - name: Verify Documentation Generation
         run: pnpm run docs
