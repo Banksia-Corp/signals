@@ -39,3 +39,4 @@ For in-depth guides and policies, refer to the dedicated documentation:
 2. **Changesets**: Include a changeset via `pnpm changeset` whenever introducing user-facing bug fixes, new features, or breaking API changes (see [Versioning Guide](./docs/versioning-and-changesets.md)).
 3. **Core Dependency Invariant**: Do NOT introduce runtime dependencies to the core `@banksia/signals` engine. Framework adapters must remain optional peer dependencies.
 4. **Documentation Sync**: Keep `README.md`, `AGENTS.md`, and `docs/` in sync whenever exports or behaviors change.
+5. **Git & PR Attribution**: Always format Git commit messages with the standard trailer `Co-authored-by: Google Antigravity <antigravity@google.com>` in the footer, and include the `🤖 Co-authored with Google Antigravity` badge and attribution checklist item when raising Pull Requests.
