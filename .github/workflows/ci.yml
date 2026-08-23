@@ -13,8 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
-    name: Test & Lint (Node ${{ matrix.node-version }})
+  quality-gates:
+    name: Quality Gates (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -39,11 +39,20 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint Check
+      - name: Check Formatting & Linting
         run: pnpm run lint
 
-      - name: Run Tests
+      - name: Run Test Suite
         run: pnpm run test
 
       - name: Build Package
         run: pnpm run build
+
+      - name: Enforce Build Size Budgets
+        run: node scripts/check-size-budgets.mjs
+
+      - name: Run Reactivity Benchmarks
+        run: pnpm run bench
+
+      - name: Verify Documentation Generation
+        run: pnpm run docs
