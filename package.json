@@ -41,6 +41,7 @@
     "docs:watch": "typedoc --watch",
     "format": "prettier --write .",
     "lint": "prettier --check \"src/**/*\" \"tests/**/*\" \"docs/**/*\" README.md AGENTS.md",
+    "size": "rslib build && node scripts/check-size-budgets.mjs",
     "test": "vitest run",
     "release": "pnpm run build && changeset publish"
   },

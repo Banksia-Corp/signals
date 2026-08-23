@@ -20,6 +20,7 @@ For in-depth guides and policies, refer to the dedicated documentation:
 - `pnpm run test` - Run Vitest test suite
 - `pnpm run lint` - Check formatting and code style with Prettier
 - `pnpm run format` - Format code with Prettier
+- `pnpm run size` - Validate package distribution size budgets
 - `pnpm changeset` - Generate a changeset for user-facing changes
 
 ---
@@ -37,7 +38,7 @@ For in-depth guides and policies, refer to the dedicated documentation:
 
 ## Agent Operational Rules
 
-1. **Quality Gates**: Always run `pnpm run test`, `pnpm run lint`, and `pnpm run build` before completing a task.
+1. **Quality Gates**: Always run `pnpm run test`, `pnpm run lint`, `pnpm run build`, and `pnpm run size` before completing a task.
 2. **Changesets**: Include a changeset via `pnpm changeset` whenever introducing user-facing bug fixes, new features, or breaking API changes (see [Versioning Guide](./docs/versioning-and-changesets.md)).
 3. **Core Dependency Invariant**: Do NOT introduce runtime dependencies to the core `@banksia/signals` engine. Framework adapters must remain optional peer dependencies.
 4. **Documentation Sync**: Keep `README.md`, `AGENTS.md`, and `docs/` in sync whenever exports or behaviors change.
