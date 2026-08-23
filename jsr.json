@@ -9,5 +9,9 @@
     "./solid": "./src/solid.ts",
     "./vanilla": "./src/vanilla.ts",
     "./devtools": "./src/devtools.ts"
+  },
+  "publish": {
+    "include": ["src/**/*.ts", "README.md", "jsr.json"],
+    "exclude": ["tests/**", "docs/**", "scripts/**"]
   }
 }
