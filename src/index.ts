@@ -21,6 +21,7 @@
  * @packageDocumentation
  */
 
+// Core primitives and proxy reactivity
 export { makeReactive, isReactive, toRaw } from "./core/proxy";
 export { signal, type Signal } from "./core/signal";
 export { computed, type ReadonlySignal } from "./core/computed";
