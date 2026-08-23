@@ -1,5 +1,11 @@
 # @banksia/signals
 
+## 0.1.3
+
+### Patch Changes
+
+- [#37](https://github.com/Banksia-Corp/signals/pull/37) [`5eb4e9c`](https://github.com/Banksia-Corp/signals/commit/5eb4e9cc9db0378b2854ed390529c4f8cb70b835) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Add automated reactivity performance benchmarking suite (`vitest bench`), `pnpm run bench` command, baseline performance documentation, and CI regression checks.
+
 ## 0.1.2
 
 ### Patch Changes
