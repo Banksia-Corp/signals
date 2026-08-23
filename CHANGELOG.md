@@ -1,5 +1,13 @@
 # @banksia/signals
 
+## 0.1.1
+
+### Patch Changes
+
+- [#30](https://github.com/Banksia-Corp/signals/pull/30) [`b2223fd`](https://github.com/Banksia-Corp/signals/commit/b2223fdf84fe5d34ebb3ab4ed669a1582b30a55c) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Add TypeDoc API documentation generation tooling, configuration, and `pnpm run docs` script.
+
+- [#32](https://github.com/Banksia-Corp/signals/pull/32) [`9cd9fd7`](https://github.com/Banksia-Corp/signals/commit/9cd9fd7debc8aa522ff6369fda6033d7e0924a92) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Audit build distribution and decouple DevTools export from root entrypoint to optimize core bundle size.
+
 ## 0.1.0
 
 ### Minor Changes
