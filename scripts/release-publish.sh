@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Publish to npm using native npm CLI with provenance (OIDC Trusted Publishing)
-npx --yes npm@latest publish --access public --provenance
+# Publish packages with Changesets and provenance (OIDC Trusted Publishing)
+pnpm exec changeset publish

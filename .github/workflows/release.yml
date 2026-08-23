@@ -53,10 +53,12 @@ jobs:
         with:
           publish: ./scripts/release-publish.sh
           version: pnpm exec changeset version
+          createGithubReleases: true
           title: "chore(release): version packages"
           commit: "chore(release): version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
 
       - name: Publish to JSR
         if: steps.changesets.outputs.published == 'true'
