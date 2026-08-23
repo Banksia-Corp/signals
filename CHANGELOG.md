@@ -1,5 +1,11 @@
 # @banksia/signals
 
+## 0.1.2
+
+### Patch Changes
+
+- [#33](https://github.com/Banksia-Corp/signals/pull/33) [`859e9a7`](https://github.com/Banksia-Corp/signals/commit/859e9a7a528658ab33ba4328a5918183efab6b72) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Add automated build size budget gate, `pnpm run size` script, and CI size enforcement workflow.
+
 ## 0.1.1
 
 ### Patch Changes
