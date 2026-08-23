@@ -15,6 +15,7 @@ For in-depth guides and policies, refer to the dedicated documentation:
 
 - `pnpm run build` - Build package via Rslib
 - `pnpm run dev` - Build in watch mode
+- `pnpm run docs` - Generate API documentation via TypeDoc
 - `pnpm run test` - Run Vitest test suite
 - `pnpm run lint` - Check formatting and code style with Prettier
 - `pnpm run format` - Format code with Prettier

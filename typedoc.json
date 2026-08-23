@@ -1,0 +1,35 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "src/index.ts",
+    "src/react.ts",
+    "src/lit.ts",
+    "src/solid.ts",
+    "src/vanilla.ts",
+    "src/devtools.ts"
+  ],
+  "out": "docs/api",
+  "name": "@banksia/signals API Documentation",
+  "readme": "README.md",
+  "tsconfig": "tsconfig.json",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "includeVersion": true,
+  "highlightLanguages": [
+    "typescript",
+    "ts",
+    "javascript",
+    "js",
+    "html",
+    "css",
+    "json",
+    "bash",
+    "shell",
+    "tsx",
+    "jsx",
+    "mermaid"
+  ],
+  "navigationLinks": {
+    "GitHub": "https://github.com/Banksia-Corp/signals"
+  }
+}

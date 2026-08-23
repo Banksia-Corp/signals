@@ -37,6 +37,8 @@
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",
+    "docs": "typedoc",
+    "docs:watch": "typedoc --watch",
     "format": "prettier --write .",
     "lint": "prettier --check \"src/**/*\" \"tests/**/*\" \"docs/**/*\" README.md AGENTS.md",
     "test": "vitest run",
@@ -80,6 +82,7 @@
     "prettier": "^3.8.3",
     "react": "^19.0.0",
     "solid-js": "^1.9.5",
+    "typedoc": "^0.28.20",
     "typescript": "^5.9.3",
     "vitest": "^4.1.10"
   }
