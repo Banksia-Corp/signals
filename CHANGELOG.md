@@ -1,5 +1,11 @@
 # @banksia/signals
 
+## 0.1.5
+
+### Patch Changes
+
+- [#43](https://github.com/Banksia-Corp/signals/pull/43) [`c4e7d54`](https://github.com/Banksia-Corp/signals/commit/c4e7d54513a2284b6ee50f283220eef130d48793) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Add Lefthook git hook configuration for automated pre-commit linting and formatting verification.
+
 ## 0.1.4
 
 ### Patch Changes
