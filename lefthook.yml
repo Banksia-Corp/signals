@@ -1,0 +1,10 @@
+# Lefthook Git Hooks Configuration
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  commands:
+    lint:
+      glob: "*.{ts,tsx,js,jsx,json,md,yml,yaml}"
+      exclude:
+        - "pnpm-lock.yaml"
+      run: pnpm exec prettier --check {staged_files}
