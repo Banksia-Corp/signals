@@ -46,6 +46,9 @@ pnpm run lint
 
 # 3. Verify bundle builds cleanly via Rslib
 pnpm run build
+
+# 4. Enforce automated build size limits and budget thresholds
+pnpm run size
 ```
 
 ### Code Formatting with Prettier

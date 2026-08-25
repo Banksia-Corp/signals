@@ -1,9 +1,12 @@
 {
   "name": "@banksia/signals",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "packageManager": "pnpm@10.28.0",
   "description": "High-performance, Proxy-based fine-grained reactive state framework with multi-framework adapters (React, Lit, SolidJS, Vanilla DOM) and Chrome DevTools MCP observability",
   "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -41,7 +44,9 @@
     "docs:watch": "typedoc --watch",
     "format": "prettier --write .",
     "lint": "prettier --check \"src/**/*\" \"tests/**/*\" \"docs/**/*\" README.md AGENTS.md",
+    "size": "rslib build && node scripts/check-size-budgets.mjs",
     "test": "vitest run",
+    "bench": "vitest bench --run",
     "release": "pnpm run build && changeset publish",
     "prepare": "lefthook install"
   },
