@@ -60,6 +60,17 @@ We enforce consistent formatting with Prettier across TypeScript source files, t
 pnpm run format
 ```
 
+### Git Pre-Commit Hooks (Lefthook)
+
+We use [Lefthook](https://github.com/evilmartians/lefthook) to automatically verify code formatting on staged files before every `git commit`.
+
+- Hooks are automatically installed upon running `pnpm install` via the `"prepare": "lefthook install"` lifecycle script.
+- You can manually test the pre-commit checks at any time:
+
+```bash
+pnpm exec lefthook run pre-commit
+```
+
 ---
 
 ## 3. Subpath Exports & Public API Contracts

@@ -47,7 +47,8 @@
     "size": "rslib build && node scripts/check-size-budgets.mjs",
     "test": "vitest run",
     "bench": "vitest bench --run",
-    "release": "pnpm run build && changeset publish"
+    "release": "pnpm run build && changeset publish",
+    "prepare": "lefthook install"
   },
   "publishConfig": {
     "access": "public",
@@ -84,6 +85,7 @@
     "@rslib/core": "^0.23.2",
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
+    "lefthook": "^2.1.10",
     "lit": "^3.2.1",
     "prettier": "^3.8.3",
     "react": "^19.0.0",

@@ -23,6 +23,7 @@ For in-depth guides and policies, refer to the dedicated documentation:
 - `pnpm run lint` - Check formatting and code style with Prettier
 - `pnpm run format` - Format code with Prettier
 - `pnpm run size` - Validate package distribution size budgets
+- `pnpm exec lefthook run pre-commit` - Manually run Lefthook pre-commit hooks (lint & formatting)
 - `pnpm changeset` - Generate a changeset for user-facing changes
 
 ---
