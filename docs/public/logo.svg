@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="signalsGradient" x1="10" y1="10" x2="110" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38bdf8"/>
+      <stop offset="0.5" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#c084fc"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <circle cx="60" cy="60" r="50" stroke="url(#signalsGradient)" stroke-width="3" stroke-dasharray="6 6" opacity="0.4" />
+  <circle cx="60" cy="60" r="36" stroke="url(#signalsGradient)" stroke-width="4" opacity="0.75" />
+  <circle cx="60" cy="60" r="22" stroke="url(#signalsGradient)" stroke-width="4.5" />
+  <circle cx="60" cy="60" r="10" fill="url(#signalsGradient)" filter="url(#glow)" />
+</svg>

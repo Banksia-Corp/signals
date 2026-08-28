@@ -5,6 +5,9 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-green.svg)](<>)
 [![Framework Agnostic](https://img.shields.io/badge/Framework-React%20%7C%20Lit%20%7C%20Solid%20%7C%20Vanilla-purple.svg)](<>)
+[![Documentation Portal](https://img.shields.io/badge/Documentation-Rspress%20%2B%20TypeDoc-0ea5e9.svg)](https://banksia-corp.github.io/signals/)
+
+📚 **Interactive Documentation & API Portal**: [https://banksia-corp.github.io/signals/](https://banksia-corp.github.io/signals/)
 
 ---
 

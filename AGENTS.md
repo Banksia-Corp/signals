@@ -13,11 +13,16 @@ For in-depth guides and policies, refer to the dedicated documentation:
 
 ---
 
-## Essential Commands
+## Documentation Portal & Essential Commands
 
+- **Live Documentation Portal**: [https://banksia-corp.github.io/signals/](https://banksia-corp.github.io/signals/)
 - `pnpm run build` - Build package via Rslib
 - `pnpm run dev` - Build in watch mode
-- `pnpm run docs` - Generate API documentation via TypeDoc
+- `pnpm run docs` - Generate standalone API documentation via TypeDoc (alias for `docs:api`)
+- `pnpm run docs:api` - Generate standalone TypeDoc API documentation into `docs/api`
+- `pnpm run docs:dev` - Start Rspress documentation portal dev server
+- `pnpm run docs:build` - Build Rspress documentation portal and bundle TypeDoc into `doc_build`
+- `pnpm run docs:preview` - Preview production Rspress documentation build locally
 - `pnpm run test` - Run Vitest test suite
 - `pnpm run bench` - Run Vitest reactivity runtime performance benchmark suite
 - `pnpm run lint` - Check formatting and code style with Prettier

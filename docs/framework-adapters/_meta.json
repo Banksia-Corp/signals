@@ -1,0 +1,22 @@
+[
+  {
+    "type": "file",
+    "name": "react",
+    "label": "React"
+  },
+  {
+    "type": "file",
+    "name": "lit",
+    "label": "Lit"
+  },
+  {
+    "type": "file",
+    "name": "solid",
+    "label": "SolidJS"
+  },
+  {
+    "type": "file",
+    "name": "vanilla",
+    "label": "Vanilla JS & DOM"
+  }
+]

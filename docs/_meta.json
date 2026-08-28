@@ -1,0 +1,53 @@
+[
+  {
+    "type": "dir",
+    "name": "getting-started",
+    "label": "Getting Started"
+  },
+  {
+    "type": "dir",
+    "name": "core-concepts",
+    "label": "Core Concepts"
+  },
+  {
+    "type": "dir",
+    "name": "framework-adapters",
+    "label": "Framework Adapters"
+  },
+  {
+    "type": "dir",
+    "name": "devtools-mcp",
+    "label": "DevTools & MCP"
+  },
+  {
+    "type": "dir",
+    "name": "api-reference",
+    "label": "API Reference"
+  },
+  {
+    "type": "group",
+    "name": "Engineering & Governance",
+    "items": [
+      {
+        "type": "file",
+        "name": "benchmarks",
+        "label": "Reactivity Benchmarks"
+      },
+      {
+        "type": "file",
+        "name": "development-guidelines",
+        "label": "Development Guidelines"
+      },
+      {
+        "type": "file",
+        "name": "distribution-audit",
+        "label": "Distribution Audit"
+      },
+      {
+        "type": "file",
+        "name": "versioning-and-changesets",
+        "label": "Versioning & Changesets"
+      }
+    ]
+  }
+]
