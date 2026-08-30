@@ -1,6 +1,6 @@
 # Philosophy & The Five Pillars
 
-`@banksia/signals` is built on five core principles engineered for predictability, maximum runtime throughput, and developer ergonomics.
+`@banksia/signals` is built on five architectural principles engineered for predictability, maximum runtime throughput, and developer ergonomics.
 
 ---
 
@@ -14,7 +14,7 @@ const state = makeReactive({
   tags: ["admin", "editor"],
 });
 
-// Direct property reads track dependency edges dynamically:
+// Direct property reads dynamically register dependency edges:
 console.log(state.user.name);
 
 // Direct property writes automatically schedule reactive updates:
@@ -22,13 +22,13 @@ state.user.name = "Bob";
 state.tags.push("maintainer");
 ```
 
-There are no wrapper calls (`state.user.name.set('Bob')`), no actions, and no reducers required for normal mutations.
+**Why it matters**: Developers should not have to learn custom accessor methods (`state.user.name.get()` / `state.user.name.set('Bob')`), action dispatchers, or reducer patterns for simple business mutations. ES6 Proxy traps seamlessly bridge standard language idioms into the reactive graph.
 
 ---
 
 ## 2. Constructor Self-Reactivity (`return makeReactive(this)`)
 
-Domain stores remain pure, idiomatic TypeScript classes. There is no need for base classes, decorators, or compiler plugins:
+Domain stores and state machines remain pure, idiomatic TypeScript classes. There is no need for base classes, legacy experimental decorators, or build-step compiler transforms:
 
 ```typescript
 export class CartStore {
@@ -48,13 +48,13 @@ export class CartStore {
 }
 ```
 
-Returning `makeReactive(this)` in the constructor returns an ES6 Proxy wrap of the class instance while retaining full prototype methods, getters, and `instanceof` fidelity.
+**Why it matters**: Returning `makeReactive(this)` in the constructor returns an ES6 Proxy wrap of the class instance while retaining full prototype methods, getters, and `instanceof` fidelity. Your domain logic stays portable, testable, and completely decoupled from framework runtime dependencies.
 
 ---
 
 ## 3. Automatic Microtask Batching
 
-Synchronous state mutations are automatically coalesced into a single microtask turn:
+Synchronous state mutations across multiple properties or collection items are automatically coalesced into a single microtask turn:
 
 ```typescript
 import { makeReactive, effect } from "@banksia/signals";
@@ -65,45 +65,64 @@ effect(() => {
   console.log(`Full name: ${store.firstName} ${store.lastName}`);
 });
 
-// Mutating multiple properties in one synchronous block:
+// Mutating multiple properties in one synchronous tick:
 store.firstName = "Jane";
 store.lastName = "Smith";
-// Effect triggers only ONCE at the end of the microtask queue!
+// Downstream effect triggers only ONCE at the end of the microtask queue!
 ```
 
-To flush pending updates synchronously when needed (e.g. before taking DOM layout measurements), call `flushBatch()`.
+**Why it matters**: Unbatched reactive updates lead to "glitches" (transient intermediate calculations) and trigger catastrophic DOM layout thrashing. Automatic microtask batching provides transactional consistency by default, while `flushBatch()` remains available when immediate synchronous layout synchronization is required.
 
 ---
 
 ## 4. Deep Granular Collection Traps
 
-Collections like `Array`, `Map`, and `Set` are deeply wrapped with custom proxies that trap both mutating methods and structural inspections:
+Native JavaScript collections wrapped with `makeReactive` are augmented with custom traps that distinguish between item reads, key mutations, and size changes:
 
 - **`Array`**: `.push()`, `.pop()`, `.shift()`, `.unshift()`, `.splice()`, `.sort()`, `.reverse()`, `.length`, and indexed mutations.
 - **`Map`**: `.set()`, `.get()`, `.has()`, `.delete()`, `.clear()`, `.keys()`, `.values()`, `.entries()`, `.size`.
 - **`Set`**: `.add()`, `.has()`, `.delete()`, `.clear()`, `.keys()`, `.values()`, `.entries()`, `.size`.
 
-Reactions are triggered surgically only for subscribers observing the specific modified keys, indices, or iterators.
+```typescript
+const roles = makeReactive(new Set<string>(["user"]));
+const userMap = makeReactive(new Map<string, string>());
+
+effect(() => {
+  console.log(`Has admin: ${roles.has("admin")}`);
+});
+
+// Mutating an unrelated set value does NOT trigger the effect:
+roles.add("editor"); // No reaction
+
+// Mutating the watched value triggers surgical reaction:
+roles.add("admin"); // Triggers reaction!
+```
+
+**Why it matters**: Heavy applications rely heavily on Maps, Sets, and Arrays. Granular collection traps prevent coarse-grained invalidation cascades, keeping data tables and memory registries lightning-fast.
 
 ---
 
 ## 5. Decoupled Multi-Framework UI Layer
 
-Domain models are completely decoupled from UI presentation. The same domain store instance can drive a React component, a Lit Web Component, a SolidJS app, or a vanilla micro-frontend:
+Domain models are completely independent of UI presentation. The exact same domain store instance can drive a React component, a Lit Web Component, a SolidJS app, or a vanilla micro-frontend:
 
 ```typescript
 // Shared domain store instance:
 export const authStore = new AuthStore();
 
-// React:
+// 1. React Component (Hook or HOC):
 const { user } = useReactive(authStore);
 
-// Lit:
-private auth = new SignalsController(this, authStore);
+// 2. Lit Web Component (Lifecycle Controller):
+private authCtrl = new SignalsController(this, authStore);
+// Access authStore.user directly in render()
 
-// SolidJS:
-const user = createSolidSignalBridge(() => authStore.user);
+// 3. SolidJS Component (Signal Bridge):
+const auth = createSolidSignalBridge(authStore);
+// Access auth().user in JSX
 
-// Vanilla JS:
-bindText(element, () => authStore.user.name);
+// 4. Vanilla DOM (Direct Binding):
+bindText(userBadgeElement, () => authStore.user.name);
 ```
+
+**Why it matters**: Enterprise applications frequently evolve, migrate frameworks, or embed micro-frontends with different UI stacks. Separating domain state into pure reactive models prevents framework lock-in and guarantees maximal code reuse.

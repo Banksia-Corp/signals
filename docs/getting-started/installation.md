@@ -40,13 +40,13 @@ The core package `@banksia/signals` has **zero external runtime dependencies**.
 
 Framework adapters are optional and available via dedicated subpath exports. Install the corresponding peer dependency if using an adapter:
 
-| Subpath Export              | Peer Dependency | Supported Versions |
-| :-------------------------- | :-------------- | :----------------- |
-| `@banksia/signals/react`    | `react`         | `^18.0.0           |     | ^19.0.0` |
-| `@banksia/signals/lit`      | `lit`           | `^3.0.0`           |
-| `@banksia/signals/solid`    | `solid-js`      | `^1.9.0`           |
-| `@banksia/signals/vanilla`  | _(None)_        | Zero dependencies  |
-| `@banksia/signals/devtools` | _(None)_        | Zero dependencies  |
+| Subpath Export              | Peer Dependency | Supported Versions     |
+| :-------------------------- | :-------------- | :--------------------- |
+| `@banksia/signals/react`    | `react`         | `^18.0.0 \|\| ^19.0.0` |
+| `@banksia/signals/lit`      | `lit`           | `^3.0.0`               |
+| `@banksia/signals/solid`    | `solid-js`      | `^1.9.0`               |
+| `@banksia/signals/vanilla`  | _(None)_        | Zero dependencies      |
+| `@banksia/signals/devtools` | _(None)_        | Zero dependencies      |
 
 Example installing with React:
 

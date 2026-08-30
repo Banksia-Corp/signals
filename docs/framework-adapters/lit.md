@@ -1,6 +1,8 @@
 # Lit Adapter
 
-The `@banksia/signals/lit` subpath provides a `SignalsController` that connects `@banksia/signals` domain stores or signals directly to `LitElement` and Web Component lifecycles.
+The `@banksia/signals/lit` subpath provides `SignalsController`, connecting `@banksia/signals` domain stores or signals directly to `LitElement` and Web Component lifecycles.
+
+---
 
 ## Installation
 
@@ -8,9 +10,11 @@ The `@banksia/signals/lit` subpath provides a `SignalsController` that connects 
 pnpm add @banksia/signals lit
 ```
 
+---
+
 ## `SignalsController`
 
-The `SignalsController` implements Lit's `ReactiveController` interface. It automatically tracks reactive access inside your element and triggers `requestUpdate()` when properties change. Subscriptions are automatically connected in `hostConnected` and torn down in `hostDisconnected`.
+`SignalsController` implements Lit's `ReactiveController` interface. It establishes a reactive effect that observes the domain store and calls `host.requestUpdate()` whenever tracked properties mutate. Subscriptions are automatically connected in `hostConnected()` and disposed in `hostDisconnected()`.
 
 ### Example with LitElement
 
@@ -23,15 +27,16 @@ import { cartStore } from "./stores/cart-store";
 @customElement("cart-badge")
 export class CartBadge extends LitElement {
   // Bind the controller to this element and the reactive store:
-  private cart = new SignalsController(this, cartStore);
+  private cartCtrl = new SignalsController(this, cartStore);
 
   render() {
+    // Access the reactive store directly; controller handles requesting updates:
     return html`
       <div class="badge">
-        <span>Cart Items: ${this.cart.target.items.length}</span>
-        <span>Total: $${this.cart.target.total.toFixed(2)}</span>
+        <span>Cart Items: ${cartStore.items.length}</span>
+        <span>Total: $${cartStore.total.toFixed(2)}</span>
         <button
-          @click=${() => this.cart.target.addItem({ id: "sku-1", price: 15, quantity: 1 })}
+          @click=${() => cartStore.addItem({ id: "sku-1", name: "Keyboard", price: 15, quantity: 1 })}
         >
           Add Item
         </button>
@@ -41,8 +46,37 @@ export class CartBadge extends LitElement {
 }
 ```
 
+---
+
 ## Controller Lifecycle Guarantees
 
-1. **Memory-Leak Free**: Disposes the underlying reactive effect as soon as `hostDisconnected()` fires.
-2. **Reconnection Safe**: When elements are detached and re-attached to the DOM, the reactive subscription is re-established in `hostConnected()`.
-3. **Multi-Store Binding**: You can register multiple `SignalsController` instances on a single LitElement.
+1. **Automatic Memory Management**: Disposes the internal reactive effect immediately when `hostDisconnected()` fires, preventing memory leaks in single-page applications.
+2. **Reconnection Resilience**: When DOM elements are moved or re-attached, the reactive subscription is re-established seamlessly in `hostConnected()`.
+3. **Multi-Store Binding**: A single `LitElement` can instantiate multiple `SignalsController` instances to bind to distinct domain stores:
+   ```typescript
+   private userCtrl = new SignalsController(this, userStore);
+   private cartCtrl = new SignalsController(this, cartStore);
+   ```
+
+---
+
+## TypeScript Signatures
+
+```typescript
+export interface ReactiveControllerHost {
+  addController(controller: ReactiveController): void;
+  removeController(controller: ReactiveController): void;
+  requestUpdate(): void;
+}
+
+export interface ReactiveController {
+  hostConnected?(): void;
+  hostDisconnected?(): void;
+}
+
+export class SignalsController<T extends object> implements ReactiveController {
+  constructor(host: ReactiveControllerHost, target: T);
+  hostConnected(): void;
+  hostDisconnected(): void;
+}
+```

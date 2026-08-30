@@ -2,15 +2,19 @@
 
 The `@banksia/signals/react` subpath provides hooks and Higher-Order Components (HOCs) to seamlessly integrate `@banksia/signals` into React 18 and React 19 applications.
 
+---
+
 ## Installation
 
 ```bash
 pnpm add @banksia/signals react react-dom
 ```
 
+---
+
 ## `useReactive(store)`
 
-Subscribes the host component to changes within a reactive object, signal, or domain store instance:
+Subscribes the host component to changes within a reactive object, collection, signal, or domain store instance:
 
 ```tsx
 import React from "react";
@@ -18,14 +22,22 @@ import { useReactive } from "@banksia/signals/react";
 import { cartStore } from "./stores/cart-store";
 
 export const CartSummary: React.FC = () => {
-  const store = useReactive(cartStore);
+  // Component re-renders whenever cartStore properties mutate:
+  const cart = useReactive(cartStore);
 
   return (
-    <div>
-      <h3>Items in cart: {store.items.length}</h3>
-      <p>Total: ${store.total.toFixed(2)}</p>
+    <div className="cart-card">
+      <h3>Items in cart: {cart.items.length}</h3>
+      <p>Total: ${cart.total.toFixed(2)}</p>
       <button
-        onClick={() => store.addItem({ id: "1", price: 9.99, quantity: 1 })}
+        onClick={() =>
+          cart.addItem({
+            id: "sku-1",
+            name: "Notebook",
+            price: 12.5,
+            quantity: 1,
+          })
+        }
       >
         Add Item
       </button>
@@ -34,9 +46,11 @@ export const CartSummary: React.FC = () => {
 };
 ```
 
+---
+
 ## `observer(Component)`
 
-Transforms any functional component into an auto-tracking reactive observer. Any signal, computed, or reactive proxy property read during render automatically becomes a dependency:
+Transforms any functional component into an auto-tracking reactive observer. Any signal, computed, or reactive proxy property read during render automatically becomes a tracked dependency:
 
 ```tsx
 import React from "react";
@@ -53,9 +67,11 @@ export const UserBadge = observer(() => {
 });
 ```
 
+---
+
 ## `useSignal(initialValue)`
 
-Creates and memoizes a localized `Signal` tied to the lifecycle of the host React component:
+Creates and memoizes a component-local `Signal` tied to the lifecycle of the host React component:
 
 ```tsx
 import React from "react";
@@ -68,7 +84,9 @@ export const LocalCounter: React.FC = () => {
 };
 ```
 
-## `useComputed(fn, deps)`
+---
+
+## `useComputed(fn)`
 
 Creates and memoizes a derived `computed()` computation within a React component:
 
@@ -88,4 +106,17 @@ export const MathWidget: React.FC = () => {
     </div>
   );
 };
+```
+
+---
+
+## TypeScript Signatures
+
+```typescript
+export function useReactive<T extends object>(target: T): T;
+export function observer<P extends object>(
+  Component: React.ComponentType<P>,
+): React.FC<P>;
+export function useSignal<T>(initialValue: T): Signal<T>;
+export function useComputed<T>(fn: () => T): ReadonlySignal<T>;
 ```

@@ -1,6 +1,8 @@
 # Reactive Proxies
 
-`@banksia/signals` allows plain JavaScript objects, class instances, and collections to become deeply reactive without altering class hierarchies or syntax.
+`@banksia/signals` allows plain JavaScript objects, class instances, and collections to become deeply reactive without altering class hierarchies, build configs, or syntax.
+
+---
 
 ## `makeReactive(target)`
 
@@ -21,9 +23,18 @@ effect(() => {
   console.log(`${profile.name} lives in ${profile.address.city}`);
 });
 
-// Deep mutations trigger surgical reactions:
+// Deep nested mutations trigger surgical reactions:
 profile.address.city = "Oakland";
 ```
+
+### Key Proxy Behaviors
+
+1. **Lazy Recursive Wrapping**: Child objects, nested arrays, and sub-collections are wrapped in reactive proxies on demand as their properties are accessed, avoiding expensive upfront tree cloning.
+2. **Method Auto-Batching**: Member methods invoked on a reactive proxy automatically execute within an atomic `batch()` transaction. If a method mutates multiple properties, all downstream effects fire only once after the method completes.
+3. **Identity Caching**: Calling `makeReactive` multiple times on the same object returns the identical cached proxy reference.
+4. **Non-Trappable Types**: Standard built-ins with native internal slots—such as `Date`, `RegExp`, `Promise`, `Error`, `WeakMap`, and `WeakSet`—are preserved without proxy wrapping to prevent runtime errors.
+
+---
 
 ## Constructor Self-Reactivity
 
@@ -52,15 +63,17 @@ export class OrderStore {
 }
 ```
 
-### Benefits:
+### Architectural Benefits
 
-- Retains prototype methods and property descriptors.
-- Works with standard `instanceof` checks.
-- Compatible with all bundlers and runtimes without legacy experimental decorators.
+- **Pure TypeScript**: Domain models stay portable and require no decorator transpilers, SWC plugins, or library base classes.
+- **Full Prototype Fidelity**: Methods, prototype inheritance chains, and property getters/setters operate normally.
+- **Type Safety**: Compatible with standard `instanceof` checks (`order instanceof OrderStore`).
+
+---
 
 ## Granular Collection Traps
 
-Native JavaScript collections wrapped with `makeReactive` provide surgical change notifications:
+Native JavaScript collections wrapped with `makeReactive` provide surgical, fine-grained change notifications:
 
 ### Arrays
 
@@ -68,10 +81,14 @@ Native JavaScript collections wrapped with `makeReactive` provide surgical chang
 const list = makeReactive([1, 2, 3]);
 
 effect(() => {
-  console.log(`Length: ${list.length}, First: ${list[0]}`);
+  console.log(`Length: ${list.length}, First item: ${list[0]}`);
 });
 
-list.push(4); // Modifies length and appends index
+// Mutating an unobserved index does NOT re-run the effect:
+list[1] = 99; // No reaction
+
+// Appending an item mutates length and triggers subscriber:
+list.push(4); // Logs: "Length: 4, First item: 1"
 ```
 
 ### Maps
@@ -83,8 +100,8 @@ effect(() => {
   console.log(`User score: ${map.get("user-1") ?? 0}`);
 });
 
-map.set("user-1", 99); // Updates subscriber
-map.set("user-2", 50); // Does not trigger user-1 subscriber
+map.set("user-1", 99); // Triggers reaction
+map.set("user-2", 50); // Does NOT trigger user-1 subscriber
 ```
 
 ### Sets
@@ -97,13 +114,15 @@ effect(() => {
 });
 
 activeUsers.add("alice"); // Triggers reaction
-activeUsers.add("bob"); // Does not re-run alice reaction
+activeUsers.add("bob"); // Does NOT trigger alice reaction
 ```
+
+---
 
 ## Utility Helpers: `isReactive` & `toRaw`
 
-- **`isReactive(value)`**: Returns `true` if the given object is a reactive proxy managed by `@banksia/signals`.
-- **`toRaw(proxy)`**: Returns the underlying unproxied, raw JavaScript object. Useful when passing objects to external third-party libraries that fail identity checks.
+- **`isReactive(value)`**: Returns `true` if the given object is an active reactive proxy managed by `@banksia/signals`.
+- **`toRaw(proxy)`**: Returns the underlying unproxied, raw JavaScript object. Essential when passing objects to external third-party libraries, performing untracked reads, or serializing data without proxy overhead.
 
 ```typescript
 import { makeReactive, isReactive, toRaw } from "@banksia/signals";
