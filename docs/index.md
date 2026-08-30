@@ -17,22 +17,22 @@ hero:
     alt: Banksia Signals Logo
 
 features:
-  - title: Zero Runtime Dependencies
-    details: Core reactive engine weighs ~2.5 kB min+brotli with 0 external dependencies. Predictable, ultra-lean, and designed for mission-critical TypeScript apps.
+  - title: Zero Dependencies
+    details: Under 3 kB with zero dependencies. Fast to download, easy to audit, and won't bloat your app.
     icon: ⚡
-  - title: ES6 Proxy-Driven State
-    details: Read properties naturally and mutate state directly. No action indirection, dispatcher boilerplate, or reducer ceremony required.
+  - title: Pure JavaScript
+    details: Read and change properties directly. No actions, dispatchers, or reducer boilerplate.
     icon: 🎯
-  - title: Constructor Self-Reactivity
-    details: Idiomatic TypeScript domain models. Simply execute return makeReactive(this) in the constructor to convert any class into a deeply reactive model.
+  - title: Reactive Classes
+    details: Add one line to any class constructor to make its properties, getters, and methods automatically reactive.
     icon: 🏗️
-  - title: Microtask Transaction Batching
-    details: Multiple synchronous mutations collapse into a single microtask turn, preventing redundant recomputations and UI layout thrashing.
+  - title: Automatic Batching
+    details: Multiple rapid changes combine into a single update so your UI never renders twice or flickers.
     icon: 🔄
-  - title: Multi-Framework UI Adapters
-    details: First-class lightweight adapters for React, Lit, SolidJS, and Vanilla DOM. Keep your business logic 100% decoupled from presentation.
+  - title: Works With Any Framework
+    details: Ready-to-use helpers for React, Lit, SolidJS, and plain JavaScript. Write your logic once and share it anywhere.
     icon: 🧩
-  - title: Chrome DevTools MCP Observability
-    details: Built-in telemetry hooks and Chrome DevTools MCP recipes enable live AI agent inspection, dependency graph tracing, and runtime debugging.
+  - title: First-Class Observability
+    details: Built for the agentic era. Inspect live state, track dependencies, and debug in Chrome DevTools or with AI coding agents.
     icon: 🔍
 ---
