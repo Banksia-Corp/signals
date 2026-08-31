@@ -1,4 +1,4 @@
-# Reactive Proxies
+# Reactive Objects & Collections
 
 `@banksia/signals` allows plain JavaScript objects, class instances, and collections to become deeply reactive without altering class hierarchies, build configs, or syntax.
 
@@ -6,7 +6,7 @@
 
 ## `makeReactive(target)`
 
-Wraps an object, class instance, or collection in a transparent ES6 Proxy:
+Makes an object, class instance, or collection deeply reactive with automatic dependency tracking:
 
 ```typescript
 import { makeReactive, effect } from "@banksia/signals";
@@ -27,12 +27,12 @@ effect(() => {
 profile.address.city = "Oakland";
 ```
 
-### Key Proxy Behaviors
+### Key Behaviors
 
-1. **Lazy Recursive Wrapping**: Child objects, nested arrays, and sub-collections are wrapped in reactive proxies on demand as their properties are accessed, avoiding expensive upfront tree cloning.
-2. **Method Auto-Batching**: Member methods invoked on a reactive proxy automatically execute within an atomic `batch()` transaction. If a method mutates multiple properties, all downstream effects fire only once after the method completes.
-3. **Identity Caching**: Calling `makeReactive` multiple times on the same object returns the identical cached proxy reference.
-4. **Non-Trappable Types**: Standard built-ins with native internal slots—such as `Date`, `RegExp`, `Promise`, `Error`, `WeakMap`, and `WeakSet`—are preserved without proxy wrapping to prevent runtime errors.
+1. **Lazy Recursive Reactivity**: Child objects, nested arrays, and sub-collections become reactive on demand as their properties are accessed, avoiding expensive upfront tree cloning.
+2. **Method Auto-Batching**: Member methods invoked on a reactive instance automatically execute within an atomic `batch()` transaction. If a method mutates multiple properties, all downstream effects fire only once after the method completes.
+3. **Identity Caching**: Calling `makeReactive` multiple times on the same object returns the identical cached reactive reference.
+4. **Non-Reactive Built-in Types**: Standard built-ins with native internal slots—such as `Date`, `RegExp`, `Promise`, `Error`, `WeakMap`, and `WeakSet`—are preserved without reactive wrapping to prevent runtime errors.
 
 ---
 
@@ -71,7 +71,7 @@ export class OrderStore {
 
 ---
 
-## Granular Collection Traps
+## Granular Collection Reactions
 
 Native JavaScript collections wrapped with `makeReactive` provide surgical, fine-grained change notifications:
 
@@ -121,16 +121,16 @@ activeUsers.add("bob"); // Does NOT trigger alice reaction
 
 ## Utility Helpers: `isReactive` & `toRaw`
 
-- **`isReactive(value)`**: Returns `true` if the given object is an active reactive proxy managed by `@banksia/signals`.
-- **`toRaw(proxy)`**: Returns the underlying unproxied, raw JavaScript object. Essential when passing objects to external third-party libraries, performing untracked reads, or serializing data without proxy overhead.
+- **`isReactive(value)`**: Returns `true` if the given object is an active reactive state object managed by `@banksia/signals`.
+- **`toRaw(target)`**: Returns the underlying raw JavaScript object. Essential when passing objects to external third-party libraries, performing untracked reads, or serializing data without reactive overhead.
 
 ```typescript
 import { makeReactive, isReactive, toRaw } from "@banksia/signals";
 
 const raw = { value: 42 };
-const proxy = makeReactive(raw);
+const state = makeReactive(raw);
 
-console.log(isReactive(proxy)); // true
+console.log(isReactive(state)); // true
 console.log(isReactive(raw)); // false
-console.log(toRaw(proxy) === raw); // true
+console.log(toRaw(state) === raw); // true
 ```

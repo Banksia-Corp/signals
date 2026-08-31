@@ -1,13 +1,13 @@
 [
   {
     "type": "file",
-    "name": "recipes",
-    "label": "Chrome DevTools MCP Recipes"
+    "name": "telemetry",
+    "label": "Observability"
   },
   {
     "type": "file",
-    "name": "telemetry",
-    "label": "Telemetry & Observability"
+    "name": "recipes",
+    "label": "Chrome DevTools & Agentic MCP"
   },
   {
     "type": "file",

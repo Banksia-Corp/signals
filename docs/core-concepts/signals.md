@@ -6,7 +6,7 @@ A **Signal** is a foundational reactive primitive that wraps an individual value
 
 ## Basic Usage
 
-In `@banksia/signals`, signals leverage the core Proxy engine under the hood:
+In `@banksia/signals`, signals provide fine-grained reactivity with direct property access:
 
 ```typescript
 import { signal } from "@banksia/signals";

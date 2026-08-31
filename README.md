@@ -1,6 +1,6 @@
 # `@banksia/signals`
 
-> Fine-grained, zero-boilerplate reactivity for modern TypeScript and multi-framework UIs.
+> Fast, fine-grained reactivity for the modern web.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-green.svg)](<>)
@@ -41,20 +41,21 @@
 
 ## Overview & Architectural Motivation
 
-Modern web applications and domain-driven systems often struggle with common state management pain points:
+State management often suffers from core architectural limitations:
 
-- **Action Indirection & Boilerplate**: Heavy ceremonies of action types, dispatcher indirection, and reducer boilerplate obscure straightforward business logic.
-- **Decorator Lock-In & Runtime Magic**: Non-standard decorator syntax and opaque compiler transforms bind domain models to proprietary library runtimes.
-- **Subscription Leaks & Operator Complexity**: Manual stream lifecycle management introduces steep learning curves, operator sprawl, and accidental memory leaks.
+- **Coarse-Grained Re-rendering**: Updating nested values frequently triggers broad component re-renders and wasteful diffing cycles.
+- **Manual Subscription Leaks**: Managing listeners, streams, and manual teardown hooks introduces cognitive overhead and potential memory leaks.
+- **Boilerplate & Indirection**: Action creators, dispatchers, and reducer ceremony complicate simple state mutations.
+- **State Glitches & Layout Thrashing**: Uncoordinated synchronous mutations cause transient calculations and repeated DOM layout churn.
 
-`@banksia/signals` was created to deliver **pure TypeScript reactivity without framework lock-in or cognitive overhead**.
+`@banksia/signals` delivers a **highly performant, reactive engine built on fine-grained signals** that solves these problems with pure JavaScript syntax, automatic dependency tracking, and zero framework lock-in.
 
 ### The Five Pillars
 
-1. **Zero-Boilerplate Proxy Traps**: Read properties (`store.user.name`) and mutate state directly (`cart.items.push(item)`). ES6 Proxy traps dynamically record dependency edges and trigger reactive notifications behind the scenes.
+1. **Zero-Boilerplate Property Access**: Read properties (`store.user.name`) and mutate state directly (`cart.items.push(item)`). Dependency edges are dynamically recorded on property access, triggering surgical reactive notifications behind the scenes.
 2. **Constructor Self-Reactivity (`return makeReactive(this)`)**: Store classes and state models remain standard, idiomatic TypeScript classes. Returning `makeReactive(this)` inside the constructor turns any class instance into a deeply reactive model without base classes or decorators.
 3. **Automatic Microtask Batching**: Synchronous state mutations across multiple properties or store methods collapse into a single microtask turn, preventing intermediate recalculations and UI layout thrashing.
-4. **Deep Granular Collection Traps**: Native support for `Array`, `Map`, and `Set` operations (`.push()`, `.set()`, `.delete()`, `.clear()`), triggering reactions only for affected indices, keys, lengths, and iterators.
+4. **Deep Granular Collection Tracking**: Native support for `Array`, `Map`, and `Set` operations (`.push()`, `.set()`, `.delete()`, `.clear()`), triggering reactions only for affected indices, keys, lengths, and iterators.
 5. **Decoupled Multi-Framework UI Layer**: Domain logic lives independently of UI libraries, seamlessly connecting to React, Lit, SolidJS, or Vanilla DOM via dedicated adapter subpaths.
 
 ### Architecture Topology

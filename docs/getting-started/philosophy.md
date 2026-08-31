@@ -4,7 +4,7 @@
 
 ---
 
-## 1. Zero-Boilerplate Proxy Traps
+## 1. Zero-Boilerplate Property Access
 
 State is accessed and mutated using standard JavaScript object and array syntax:
 
@@ -22,7 +22,7 @@ state.user.name = "Bob";
 state.tags.push("maintainer");
 ```
 
-**Why it matters**: Developers should not have to learn custom accessor methods (`state.user.name.get()` / `state.user.name.set('Bob')`), action dispatchers, or reducer patterns for simple business mutations. ES6 Proxy traps seamlessly bridge standard language idioms into the reactive graph.
+**Why it matters**: Developers should not have to learn custom accessor methods (`state.user.name.get()` / `state.user.name.set('Bob')`), action dispatchers, or reducer patterns for simple business mutations. Standard language idioms seamlessly bridge into the reactive graph.
 
 ---
 
@@ -31,14 +31,20 @@ state.tags.push("maintainer");
 Domain stores and state machines remain pure, idiomatic TypeScript classes. There is no need for base classes, legacy experimental decorators, or build-step compiler transforms:
 
 ```typescript
+export interface CartItem {
+  id: string;
+  price: number;
+  quantity: number;
+}
+
 export class CartStore {
-  items: { id: string; price: number; quantity: number }[] = [];
+  items: CartItem[] = [];
 
   constructor() {
     return makeReactive(this);
   }
 
-  addItem(item: { id: string; price: number; quantity: number }) {
+  addItem(item: CartItem) {
     this.items.push(item);
   }
 
@@ -48,7 +54,7 @@ export class CartStore {
 }
 ```
 
-**Why it matters**: Returning `makeReactive(this)` in the constructor returns an ES6 Proxy wrap of the class instance while retaining full prototype methods, getters, and `instanceof` fidelity. Your domain logic stays portable, testable, and completely decoupled from framework runtime dependencies.
+**Why it matters**: Returning `makeReactive(this)` in the constructor makes the class instance deeply reactive while retaining full prototype methods, getters, and `instanceof` fidelity. Your domain logic stays portable, testable, and completely decoupled from framework runtime dependencies.
 
 ---
 
@@ -75,9 +81,9 @@ store.lastName = "Smith";
 
 ---
 
-## 4. Deep Granular Collection Traps
+## 4. Deep Granular Collection Tracking
 
-Native JavaScript collections wrapped with `makeReactive` are augmented with custom traps that distinguish between item reads, key mutations, and size changes:
+Native JavaScript collections wrapped with `makeReactive` distinguish between item reads, key mutations, and size changes:
 
 - **`Array`**: `.push()`, `.pop()`, `.shift()`, `.unshift()`, `.splice()`, `.sort()`, `.reverse()`, `.length`, and indexed mutations.
 - **`Map`**: `.set()`, `.get()`, `.has()`, `.delete()`, `.clear()`, `.keys()`, `.values()`, `.entries()`, `.size`.
@@ -98,7 +104,7 @@ roles.add("editor"); // No reaction
 roles.add("admin"); // Triggers reaction!
 ```
 
-**Why it matters**: Heavy applications rely heavily on Maps, Sets, and Arrays. Granular collection traps prevent coarse-grained invalidation cascades, keeping data tables and memory registries lightning-fast.
+**Why it matters**: Heavy applications rely heavily on Maps, Sets, and Arrays. Granular collection tracking prevents coarse-grained invalidation cascades, keeping data tables and memory registries lightning-fast.
 
 ---
 

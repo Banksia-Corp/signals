@@ -1,6 +1,6 @@
-# Chrome DevTools MCP Recipes
+# Chrome DevTools & Agentic MCP Observability
 
-`@banksia/signals/devtools` connects directly to AI agent tooling such as Chrome DevTools MCP (`evaluate_script`). This enables LLM coding agents and browser automation scripts to inspect state, trace subscriptions, and verify reactive invariants in real time—without triggering reactive side effects or creating phantom dependency edges.
+The `@banksia/signals/devtools` bridge connects directly to browser inspection consoles and AI agent tooling such as Chrome DevTools MCP (`evaluate_script`). This enables LLM coding agents, test runners, and browser automation scripts to inspect state, trace subscriptions, and verify reactive invariants in real time—without triggering reactive side effects or creating phantom dependency edges.
 
 ---
 

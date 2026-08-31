@@ -1,6 +1,6 @@
 # Overview
 
-`@banksia/signals` is a high-performance, Proxy-based fine-grained reactive state framework designed for modern TypeScript applications and multi-framework architectures.
+`@banksia/signals` is a highly performant, reactive engine built around fine-grained signals for modern TypeScript applications and multi-framework architectures.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -9,15 +9,15 @@
 │     constructor() { return makeReactive(this); }            │
 │   }                                                         │
 └───────────────┬─────────────────────────────────────────────┘
-                │ Proxy traps (get / set / delete)
+                │ Transparent property access
 ┌───────────────▼─────────────────────────────────────────────┐
 │                  Signals Core Engine                        │
 │   - Dependency Graph & Dynamic Edge Tracking                │
 │   - Microtask Batch Scheduler (zero layout thrashing)       │
-│   - Granular Collection Traps (Array, Map, Set)             │
-│   - Observability Hub & Chrome DevTools MCP Bridge          │
+│   - Granular Collection Reactions (Array, Map, Set)         │
+│   - Observability Hubs & Universal Telemetry Engine         │
 └───────────────┬─────────────────────────────────────────────┘
-                │ Reactive notifications
+                │ Surgical notifications
 ┌───────────────▼─────────────────────────────────────────────┐
 │               Framework Integration Layer                   │
 │   React       Lit           SolidJS        Vanilla DOM      │
@@ -26,36 +26,42 @@
 
 ---
 
-## Why Banksia Signals?
+## What Problems Do Signals Solve?
 
-Modern application developers often find themselves choosing between painful extremes in state management:
+State management often suffers from four fundamental architectural limitations:
 
-1. **Action Indirection & Boilerplate**: Redux-like architectures require action creators, type constants, dispatchers, and reducer ceremony just to update a primitive property.
-2. **Decorator Lock-In & Compiler Transforms**: MobX and legacy state libraries rely on proprietary decorator syntax or babel/SWC compiler plugins, coupling business models to specific build tools.
-3. **Stream Operator Complexity**: RxJS provides exceptional reactive power, but introduces steep learning curves, operator sprawl, and insidious subscription memory leaks.
-4. **Access-Indirection Signals**: Conventional signal libraries require unwrapping values through function calls (`count()`) or property getters (`count.value`), making deep nested object and array mutations awkward.
+1. **Coarse-Grained Re-rendering & Wasteful Computation**: Traditional state models notify subscribers at the whole-component or whole-store level. When a single nested property changes, entire component subtrees re-render and execute unneeded diffing cycles. Signals track dependency edges down to individual property reads, updating only the exact calculations or DOM nodes that depend on that specific value.
+2. **Manual Subscription Management & Memory Leaks**: Event-driven and stream-based architectures require manual listener registration, custom unsubscribe logic, and lifecycle hook plumbing. Missing an unsubscription causes insidious memory leaks. Signals dynamically track dependencies only when accessed during execution and automatically tear down unused links.
+3. **Boilerplate & Indirection Overhead**: Action creators, string constants, dispatchers, and reducer ceremony introduce cognitive overhead and friction for straightforward state mutations. Signals allow natural reading and writing directly on standard JavaScript objects and classes without ceremony.
+4. **State Glitches & Layout Thrashing**: Uncoordinated sequential state mutations cause transient intermediate states ("glitches") and repeated synchronous DOM layout thrashing. Signals coordinate dependency propagation through atomic microtask batching, guaranteeing consistent, single-turn updates.
 
-`@banksia/signals` solves these challenges by combining the ergonomics of **transparent ES6 Proxies** with the mathematical rigor of **fine-grained dependency graphs**:
+---
 
-- **Zero-Boilerplate Property Access**: Read properties naturally (`store.user.name`) and mutate directly (`store.items.push(item)`).
-- **Constructor Self-Reactivity**: Simply return `makeReactive(this)` in standard TypeScript class constructors to make any domain class deeply reactive—preserving `instanceof`, prototype methods, and getters without decorators.
-- **Microtask Transaction Batching**: Multiple synchronous mutations collapse into a single microtask turn, eliminating intermediate state glitches and UI thrashing.
-- **Granular Collection Traps**: Built-in, surgical reactions for native `Array`, `Map`, and `Set` operations.
+## Why Signals Deliver Maximum Performance
+
+`@banksia/signals` combines the mathematical efficiency of **fine-grained dependency graphs** with the ergonomics of **pure JavaScript state**:
+
+- **Surgical Invalidation**: Updates propagate strictly to active consumers of mutated properties, eliminating full-tree diffing and wasted rendering cycles.
+- **Lazy, Memoized Computations**: Derived values compute only when read and cache their result until an upstream dependency changes.
+- **Automatic Microtask Batching**: Multiple synchronous mutations collapse into a single microtask turn, preventing layout thrashing and intermediate glitch states.
+- **Granular Collection Reactions**: Built-in, surgical reactions for native `Array`, `Map`, and `Set` operations without coarse invalidation cascades.
+- **Zero-Boilerplate Ergonomics**: Standard TypeScript classes and objects become reactive domain models with a single constructor line (`return makeReactive(this)`), preserving `instanceof`, prototype methods, and getters without decorators.
 - **Zero Runtime Dependencies**: The core package weighs ~2.5 kB min+brotli with 0 external dependencies.
 - **Decoupled Multi-Framework Adapters**: First-class, lightweight adapters for React, Lit, SolidJS, and Vanilla DOM.
-- **Chrome DevTools & AI Agent MCP Observability**: Built-in telemetry hooks and DevTools MCP bridge (`window.__BANKSIA_SIGNALS_DEVTOOLS__`) enable real-time introspection and autonomous agent pair-programming.
+- **First-Class Observability**: Built-in lifecycle hooks, target-scoped observers, and telemetry hubs allow any medium—whether Chrome DevTools, agentic tooling, streaming pipelines, or analytical monitoring engines—to inspect state, trace dependency graphs, and audit mutations in real time without polluting the reactive graph.
 
 ---
 
 ## Architectural Comparison Matrix
 
-| Dimension              | Primitive Signals (Preact, TC39)                                                             | Heavy Proxy Stores (MobX)                                                  | `@banksia/signals`                                                                                  |
-| :--------------------- | :------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------- |
-| **Object Mutability**  | Wrapped accessors (`sig.value`, `sig()`); complex nested models require separate boilerplate | Transparent proxies, but requires decorators or custom compiler transforms | **Zero-decorator, constructor self-reactivity** (`return makeReactive(this)`)                       |
-| **Collection Traps**   | Shallow wrapping or manual immutability (`[...arr, item]`)                                   | Observable collection wrapper classes                                      | **Granular Proxy traps** for native `Array`, `Map`, and `Set`                                       |
-| **Bundle Size & Deps** | ~1–3 kB, but companion stores add substantial weight                                         | ~15–50 kB, multiple dependencies                                           | **~2.5 kB min+brotli, ZERO external runtime dependencies**                                          |
-| **Framework Agnostic** | Tied to a specific view library or standalone                                                | Typically tied to React or custom bindings                                 | **Framework-agnostic domain layer** with modular adapters for React, Lit, Solid, Vanilla            |
-| **Observability**      | Ad-hoc console logging or browser extensions                                                 | Heavy profiler plugins                                                     | **First-class DevTools MCP bridge** (`window.__BANKSIA_SIGNALS_DEVTOOLS__`) & telemetry ring buffer |
+| Dimension              | Coarse-Grained State Stores                                 | Accessor-Wrapped Signals                                                      | `@banksia/signals` (Pure Domain Signals)                                                                          |
+| :--------------------- | :---------------------------------------------------------- | :---------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------- |
+| **Object Mutability**  | Immutable clones (`{...state}`) or action dispatchers       | Wrapped accessors (`sig.value`, `sig()`); complex nested models need wrappers | **Direct property reads & writes** with zero-decorator constructor self-reactivity                                |
+| **Collection Traps**   | Manual array copying or wrapper classes                     | Shallow wrapping; manual immutability (`[...arr, item]`)                      | **Granular collection reactions** for native `Array`, `Map`, and `Set`                                            |
+| **Update Granularity** | Coarse component re-renders or manual selector memoization  | Fine-grained leaf updates                                                     | **Surgical property-level dependency tracking** & automatic microtask batching                                    |
+| **Bundle Size & Deps** | 10–50+ kB, multiple dependencies                            | 1–3 kB core, but complex domain models require heavy add-on stores            | **~2.5 kB min+brotli, ZERO external runtime dependencies**                                                        |
+| **Framework Agnostic** | Usually tied to specific UI runtimes or custom bindings     | Often tied to a specific view library                                         | **Framework-agnostic domain layer** with modular adapters for React, Lit, Solid, Vanilla                          |
+| **Observability**      | Heavy profiler middleware or browser extension dependencies | Ad-hoc console logging                                                        | **First-class observability engine** (global hooks, scoped observers, telemetry hubs, DevTools & agentic tooling) |
 
 ---
 
@@ -64,9 +70,16 @@ Modern application developers often find themselves choosing between painful ext
 ```typescript
 import { makeReactive, computed, effect } from "@banksia/signals";
 
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
 // 1. Define a pure TypeScript domain store with constructor self-reactivity:
 class CartStore {
-  items: { id: string; name: string; price: number; quantity: number }[] = [];
+  items: CartItem[] = [];
   discounts = new Map<string, number>();
 
   constructor() {
@@ -85,7 +98,7 @@ class CartStore {
     return Math.max(0, subtotal * (1 - discountRate));
   }
 
-  addItem(item: { id: string; name: string; price: number; quantity: number }) {
+  addItem(item: CartItem) {
     this.items.push(item);
   }
 
@@ -122,4 +135,4 @@ cart.applyDiscount("SAVE10", 0.1);
 
 - **[Installation Guide](./installation)**: Install `@banksia/signals` and explore supported framework peer dependencies.
 - **[Philosophy & The Five Pillars](./philosophy)**: Understand the core design principles guiding our architecture.
-- **[Core Concepts](../core-concepts/signals)**: Deep dive into signals, computed derivations, effects, reactive proxies, and scheduling.
+- **[Core Concepts](../core-concepts/signals)**: Deep dive into signals, computed derivations, effects, reactive state, and scheduling.

@@ -8,7 +8,7 @@ export default defineConfig({
   root: path.join(__dirname, "docs"),
   title: "@banksia/signals",
   description:
-    "Fine-grained, zero-boilerplate reactivity for modern TypeScript and multi-framework UIs",
+    "Fast, fine-grained reactivity for the modern web with modern TypeScript and multi-framework UIs",
   icon: "/logo.svg",
   logo: "/logo.svg",
   logoText: "@banksia/signals",
@@ -32,7 +32,7 @@ export default defineConfig({
       { text: "Guide", link: "/getting-started/overview" },
       { text: "Core Concepts", link: "/core-concepts/signals" },
       { text: "Framework Adapters", link: "/framework-adapters/react" },
-      { text: "DevTools & MCP", link: "/devtools-mcp/recipes" },
+      { text: "Observability", link: "/devtools-mcp/telemetry" },
       { text: "API Reference", link: "/api-reference/" },
       { text: "TypeDoc Portal", link: "/api/index.html" },
     ],

@@ -28,7 +28,7 @@ theme.value = "dark";
 An effect in `@banksia/signals` follows a predictable dual-phase execution model:
 
 1. **Initial Synchronous Registration**: When `effect(fn)` is called, `fn` executes **immediately and synchronously** on the current tick. This captures the active set of reactive dependencies.
-2. **Microtask-Batched Invalidation**: When any captured dependency mutates subsequently, the effect is flagged and queued in the microtask batch scheduler. Multiple mutations across signals or proxy properties in the same tick trigger only a single re-execution.
+2. **Microtask-Batched Invalidation**: When any captured dependency mutates subsequently, the effect is flagged and queued in the microtask batch scheduler. Multiple mutations across signals or reactive properties in the same tick trigger only a single re-execution.
 
 ---
 

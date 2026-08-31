@@ -1,6 +1,6 @@
-# Runtime Debugging
+# Runtime Debugging & Invariants
 
-Debugging fine-grained reactive applications can be challenging when state mutations cascade unexpectedly or cause recursion cycles. `@banksia/signals` includes built-in cycle safeguards, console debug helpers, and diagnostic inspector hooks.
+Observing and debugging fine-grained reactive applications is supported natively at runtime. `@banksia/signals` includes built-in circular dependency safeguards, console debug helpers, and live diagnostic inspector hooks.
 
 ---
 
