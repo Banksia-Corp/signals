@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
+const docsDir = path.join(rootDir, "docs");
 const buildDir = path.join(rootDir, "doc_build");
 const apiBuildDir = path.join(buildDir, "api");
 
@@ -56,11 +57,7 @@ function createCleanUrlRedirects(dir) {
 </body>
 </html>
 `;
-        fs.writeFileSync(
-          path.join(indexSubdir, "index.html"),
-          redirectHtml,
-          "utf-8",
-        );
+        fs.writeFileSync(path.join(indexSubdir, "index.html"), redirectHtml, "utf-8");
         count++;
       } else {
         const cleanDir = path.join(dir, baseName);
@@ -85,11 +82,7 @@ function createCleanUrlRedirects(dir) {
 </body>
 </html>
 `;
-        fs.writeFileSync(
-          path.join(cleanDir, "index.html"),
-          redirectHtml,
-          "utf-8",
-        );
+        fs.writeFileSync(path.join(cleanDir, "index.html"), redirectHtml, "utf-8");
         count++;
       }
     }
@@ -99,9 +92,7 @@ function createCleanUrlRedirects(dir) {
 
 if (fs.existsSync(apiBuildDir)) {
   const redirectCount = createCleanUrlRedirects(apiBuildDir);
-  console.log(
-    `✅ Generated ${redirectCount} clean URL redirects in doc_build/api`,
-  );
+  console.log(`✅ Generated ${redirectCount} clean URL redirects in doc_build/api`);
 } else {
   console.warn("⚠️ Warning: doc_build/api directory not found.");
 }
@@ -116,9 +107,7 @@ const requiredApiAssets = [
 let assetsValid = true;
 for (const asset of requiredApiAssets) {
   if (!fs.existsSync(asset)) {
-    console.warn(
-      `⚠️ Warning: TypeDoc asset missing at ${path.relative(rootDir, asset)}`,
-    );
+    console.warn(`⚠️ Warning: TypeDoc asset missing at ${path.relative(rootDir, asset)}`);
     assetsValid = false;
   }
 }
@@ -126,22 +115,132 @@ if (assetsValid) {
   console.log("✅ TypeDoc static bundle assets verified");
 }
 
-// 4. Validate LLM-Native Documentation Artifacts
+// 4. Generate LLM-Native Documentation (llms.txt, llms-full.txt, and copy clean .md files)
+function copyMarkdownFiles(srcDir, destDir) {
+  const entries = fs.readdirSync(srcDir, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(srcDir, entry.name);
+    const destPath = path.join(destDir, entry.name);
+
+    if (entry.isDirectory()) {
+      if (entry.name !== "api" && entry.name !== "public" && entry.name !== "node_modules") {
+        if (!fs.existsSync(destPath)) {
+          fs.mkdirSync(destPath, { recursive: true });
+        }
+        copyMarkdownFiles(srcPath, destPath);
+      }
+    } else if (entry.isFile() && entry.name.endsWith(".md")) {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
+copyMarkdownFiles(docsDir, buildDir);
+console.log("✅ Synchronized Markdown files into doc_build");
+
+// Define the structured documentation manifest for LLMs
+const docsSections = [
+  {
+    title: "Getting Started",
+    pages: [
+      { name: "Overview", file: "getting-started/overview.md" },
+      { name: "Installation", file: "getting-started/installation.md" },
+      { name: "Philosophy & The Five Pillars", file: "getting-started/philosophy.md" },
+    ],
+  },
+  {
+    title: "Core Concepts",
+    pages: [
+      { name: "Signals", file: "core-concepts/signals.md" },
+      { name: "Computed", file: "core-concepts/computed.md" },
+      { name: "Effects", file: "core-concepts/effects.md" },
+      { name: "Reactive Objects & Collections", file: "core-concepts/reactive-proxies.md" },
+      { name: "Batching & Scheduler", file: "core-concepts/batching-scheduler.md" },
+      { name: "Telemetry & Observability Hubs", file: "core-concepts/telemetry-hubs.md" },
+    ],
+  },
+  {
+    title: "Framework Adapters",
+    pages: [
+      { name: "React Adapter", file: "framework-adapters/react.md" },
+      { name: "Lit Adapter", file: "framework-adapters/lit.md" },
+      { name: "SolidJS Adapter", file: "framework-adapters/solid.md" },
+      { name: "Vanilla JS & DOM Adapter", file: "framework-adapters/vanilla.md" },
+    ],
+  },
+  {
+    title: "Observability & Developer Tooling",
+    pages: [
+      { name: "Observability", file: "devtools-mcp/telemetry.md" },
+      { name: "Chrome DevTools & Agentic MCP Observability", file: "devtools-mcp/recipes.md" },
+      { name: "Runtime Debugging & Invariants", file: "devtools-mcp/debugging.md" },
+    ],
+  },
+  {
+    title: "API Reference",
+    pages: [{ name: "API Matrix", file: "api-reference/index.md" }],
+  },
+  {
+    title: "Engineering & Governance",
+    pages: [
+      { name: "Reactivity Performance Benchmarking & Budgets", file: "benchmarks.md" },
+      { name: "Development & Contributor Guidelines", file: "development-guidelines.md" },
+      {
+        name: "Build Distribution, Bundling Strategy & Observability Audit",
+        file: "distribution-audit.md",
+      },
+      {
+        name: "Semantic Versioning & Changeset Workflow",
+        file: "versioning-and-changesets.md",
+      },
+    ],
+  },
+];
+
+// Generate llms.txt
+let llmsTxt = `# signals\n\n> An ultra-fast reactivity engine for the modern web with pure domain models, multi-framework adapters, and first-class observability.\n\n`;
+
+for (const section of docsSections) {
+  llmsTxt += `## ${section.title}\n\n`;
+  for (const page of section.pages) {
+    llmsTxt += `- [${page.name}](/${page.file})\n`;
+  }
+  llmsTxt += `\n`;
+}
+
 const llmsTxtPath = path.join(buildDir, "llms.txt");
+fs.writeFileSync(llmsTxtPath, llmsTxt.trimEnd() + "\n", "utf-8");
+console.log(`✅ llms.txt generated (${fs.statSync(llmsTxtPath).size} bytes)`);
+
+// Generate llms-full.txt
+let llmsFullTxt = `# @banksia/signals Documentation\n\nAn ultra-fast reactivity engine for the modern web with pure domain models, multi-framework adapters (React, Lit, SolidJS, Vanilla DOM), and first-class observability.\n\n`;
+
+function cleanMarkdownContent(raw) {
+  // Strip frontmatter if present
+  let content = raw.replace(/^---[\s\S]*?---\n*/, "");
+  return content.trim();
+}
+
+for (const section of docsSections) {
+  llmsFullTxt += `\n================================================================================\n`;
+  llmsFullTxt += `# SECTION: ${section.title}\n`;
+  llmsFullTxt += `================================================================================\n\n`;
+
+  for (const page of section.pages) {
+    const filePath = path.join(docsDir, page.file);
+    if (fs.existsSync(filePath)) {
+      const rawContent = fs.readFileSync(filePath, "utf-8");
+      const cleaned = cleanMarkdownContent(rawContent);
+      llmsFullTxt += `\n--------------------------------------------------------------------------------\n`;
+      llmsFullTxt += `## FILE: /${page.file} (${page.name})\n`;
+      llmsFullTxt += `--------------------------------------------------------------------------------\n\n`;
+      llmsFullTxt += cleaned + "\n\n";
+    }
+  }
+}
+
 const llmsFullTxtPath = path.join(buildDir, "llms-full.txt");
-
-if (fs.existsSync(llmsTxtPath)) {
-  const llmsStats = fs.statSync(llmsTxtPath);
-  console.log(`✅ llms.txt generated (${llmsStats.size} bytes)`);
-} else {
-  console.warn("⚠️ Warning: llms.txt was not found in doc_build");
-}
-
-if (fs.existsSync(llmsFullTxtPath)) {
-  const llmsFullStats = fs.statSync(llmsFullTxtPath);
-  console.log(`✅ llms-full.txt generated (${llmsFullStats.size} bytes)`);
-} else {
-  console.warn("⚠️ Warning: llms-full.txt was not found in doc_build");
-}
+fs.writeFileSync(llmsFullTxtPath, llmsFullTxt.trimEnd() + "\n", "utf-8");
+console.log(`✅ llms-full.txt generated (${fs.statSync(llmsFullTxtPath).size} bytes)`);
 
 console.log("✨ Documentation post-build touchup complete!");

@@ -1,6 +1,5 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { pluginLlms } from "@rspress/plugin-llms";
 import { defineConfig } from "rspress/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -88,7 +87,6 @@ export default defineConfig({
     cleanUrls: true,
     exclude: ["**/api/**", "**/api/**/*"],
   },
-  plugins: [pluginLlms()],
   builderConfig: {
     output: {
       copy: [
@@ -100,7 +98,6 @@ export default defineConfig({
     },
   },
   themeConfig: {
-    llmsUI: true,
     nav: [
       { text: "Guide", link: "/getting-started/overview" },
       { text: "Core Concepts", link: "/core-concepts/signals" },
