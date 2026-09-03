@@ -1,5 +1,15 @@
 # @banksia/signals
 
+## 0.1.6
+
+### Patch Changes
+
+- [#51](https://github.com/Banksia-Corp/signals/pull/51) [`5897927`](https://github.com/Banksia-Corp/signals/commit/58979271b2b1fc79683f8dedd974aed5a3c8357d) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Refine and finesse documentation copy across all portal guides, aligning API signatures, code snippets, and architectural value proposition with engine implementations (fixes #47).
+
+- [#51](https://github.com/Banksia-Corp/signals/pull/51) [`787239f`](https://github.com/Banksia-Corp/signals/commit/787239f6dd9c4f8f8d758ba2bbad54f58d36d6c9) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Refine and strengthen the core value proposition in README.md and documentation portal around ultra-fast reactivity, pure domain models, and universal framework adapters (fixes #50).
+
+- [#51](https://github.com/Banksia-Corp/signals/pull/51) [`8016f19`](https://github.com/Banksia-Corp/signals/commit/8016f1904ab47c8358d455235c70d67182ca6a3e) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Setup interactive Rspress documentation portal, documentation guides (Getting Started, Core Concepts, Framework Adapters, DevTools & MCP, API Reference), TypeDoc bundling, and automated GitHub Pages deployment workflow.
+
 ## 0.1.5
 
 ### Patch Changes

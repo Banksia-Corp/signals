@@ -1,6 +1,6 @@
 {
   "name": "@banksia/signals",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "packageManager": "pnpm@10.28.0",
   "description": "Ultra-fast reactivity engine for the modern web with pure domain models, multi-framework adapters (React, Lit, SolidJS, Vanilla DOM), and first-class observability",
   "type": "module",
