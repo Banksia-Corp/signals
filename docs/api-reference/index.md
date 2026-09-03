@@ -3,7 +3,7 @@
 This page provides an architectural matrix of all subpath exports and functions in `@banksia/signals`.
 
 :::tip Complete TypeDoc Documentation
-For exhaustive TypeScript type declarations, member signatures, inheritance diagrams, and symbol documentation generated directly from source code, explore our standalone **[TypeDoc API Portal](/api/index.html)**.
+For exhaustive TypeScript type declarations, member signatures, inheritance diagrams, and symbol documentation generated directly from source code, explore our standalone **[TypeDoc API Portal](/api/)**.
 :::
 
 ---

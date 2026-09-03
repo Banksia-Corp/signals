@@ -42,10 +42,7 @@ jobs:
       - name: Build Package
         run: pnpm run build
 
-      - name: Generate TypeDoc API Reference
-        run: pnpm run docs:api
-
-      - name: Build Rspress Static Documentation
+      - name: Build Documentation Portal & TypeDoc Reference
         run: pnpm run docs:build
         env:
           GITHUB_PAGES: "true"
