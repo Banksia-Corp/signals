@@ -1,0 +1,17 @@
+[
+  {
+    "type": "file",
+    "name": "telemetry",
+    "label": "Observability"
+  },
+  {
+    "type": "file",
+    "name": "recipes",
+    "label": "Chrome DevTools & Agentic MCP"
+  },
+  {
+    "type": "file",
+    "name": "debugging",
+    "label": "Runtime Debugging"
+  }
+]

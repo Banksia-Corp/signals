@@ -1,0 +1,32 @@
+[
+  {
+    "type": "file",
+    "name": "signals",
+    "label": "Signals"
+  },
+  {
+    "type": "file",
+    "name": "computed",
+    "label": "Computed"
+  },
+  {
+    "type": "file",
+    "name": "effects",
+    "label": "Effects"
+  },
+  {
+    "type": "file",
+    "name": "reactive-proxies",
+    "label": "Reactive Objects"
+  },
+  {
+    "type": "file",
+    "name": "batching-scheduler",
+    "label": "Batching & Scheduler"
+  },
+  {
+    "type": "file",
+    "name": "telemetry-hubs",
+    "label": "Telemetry & Hubs"
+  }
+]

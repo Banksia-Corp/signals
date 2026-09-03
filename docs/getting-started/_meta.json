@@ -1,0 +1,17 @@
+[
+  {
+    "type": "file",
+    "name": "overview",
+    "label": "Overview"
+  },
+  {
+    "type": "file",
+    "name": "installation",
+    "label": "Installation"
+  },
+  {
+    "type": "file",
+    "name": "philosophy",
+    "label": "Philosophy & Pillars"
+  }
+]
