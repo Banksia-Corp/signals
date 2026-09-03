@@ -1,6 +1,6 @@
 # Overview
 
-`@banksia/signals` is a highly performant, reactive engine built around fine-grained signals for modern TypeScript applications and multi-framework architectures.
+`@banksia/signals` is an ultra-fast reactivity engine built for the modern web, empowering engineers to build pure domain models that adapt to any framework.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐

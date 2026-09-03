@@ -6,12 +6,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   root: path.join(__dirname, "docs"),
-  title: "@banksia/signals",
+  title: "signals",
   description:
-    "Fast, fine-grained reactivity for the modern web with modern TypeScript and multi-framework UIs",
+    "An ultra-fast reactivity engine for the modern web with pure domain models and multi-framework adapters",
   icon: "/logo.svg",
   logo: "/logo.svg",
-  logoText: "@banksia/signals",
+  logoText: "signals",
   base: process.env.DOCS_BASE || (process.env.GITHUB_PAGES ? "/signals/" : "/"),
   route: {
     cleanUrls: true,
@@ -44,7 +44,7 @@ export default defineConfig({
       },
     ],
     footer: {
-      message: "Released under the MIT License. Copyright © Banksia Corp.",
+      message: "Released under the MIT License.",
     },
   },
 });

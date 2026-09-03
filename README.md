@@ -1,6 +1,6 @@
 # `@banksia/signals`
 
-> Fast, fine-grained reactivity for the modern web.
+> An ultra-fast reactivity engine for the modern web.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-green.svg)](<>)
@@ -11,10 +11,20 @@
 
 ---
 
+### Highlights
+
+- 🚀 **Ultra-Fast Signals**: Fine-grained dependency tracking and automatic microtask batching update only what changed with zero flicker.
+- 📦 **Pure Domain Models**: Standard classes and objects—no decorators, no base classes, no store boilerplate (`return makeReactive(this)`).
+- 🔍 **First-Class Observability**: Built-in hooks and telemetry hubs ready for dev tooling and agentic workflows.
+- 🔌 **Universal Framework Adapters**: One domain model runs across React, Lit, SolidJS, and Vanilla DOM.
+- 🪶 **Zero Dependencies**: Lightweight engine (~2.5 kB minified) with 0 external dependencies.
+
+---
+
 ## Table of Contents
 
 - [Overview & Architectural Motivation](#overview--architectural-motivation)
-  - [The Five Pillars](#the-five-pillars)
+  - [Core Pillars](#core-pillars)
   - [Architecture Topology](#architecture-topology)
 - [Installation & Subpath Exports](#installation--subpath-exports)
 - [Quickstart in 5 Minutes](#quickstart-in-5-minutes)
@@ -41,22 +51,24 @@
 
 ## Overview & Architectural Motivation
 
-State management often suffers from core architectural limitations:
+Build your domain model once and plug into your framework of choice.
 
-- **Coarse-Grained Re-rendering**: Updating nested values frequently triggers broad component re-renders and wasteful diffing cycles.
-- **Manual Subscription Leaks**: Managing listeners, streams, and manual teardown hooks introduces cognitive overhead and potential memory leaks.
-- **Boilerplate & Indirection**: Action creators, dispatchers, and reducer ceremony complicate simple state mutations.
-- **State Glitches & Layout Thrashing**: Uncoordinated synchronous mutations cause transient calculations and repeated DOM layout churn.
+Traditional state management often ties your business logic directly to a specific UI framework, introducing common architectural bottlenecks:
 
-`@banksia/signals` delivers a **highly performant, reactive engine built on fine-grained signals** that solves these problems with pure JavaScript syntax, automatic dependency tracking, and zero framework lock-in.
+- **Framework Lock-In**: Tangling domain rules in UI-specific state hooks or stores makes code hard to reuse across micro-frontends or migrate to modern stacks.
+- **Boilerplate & Indirection**: Action creators, dispatchers, and reducer ceremony complicate straightforward property mutations.
+- **Coarse-Grained Re-rendering**: Updating a single nested property or collection item can trigger broad component re-renders and wasteful diffing cycles.
+- **State Glitches & Layout Thrashing**: Uncoordinated synchronous mutations cause transient intermediate states and repeated DOM layout churn.
 
-### The Five Pillars
+`@banksia/signals` delivers an **ultra-fast reactivity engine built on fine-grained signals** that solves these challenges with pure JavaScript syntax, automatic dependency tracking, and seamless multi-framework interoperability.
 
-1. **Zero-Boilerplate Property Access**: Read properties (`store.user.name`) and mutate state directly (`cart.items.push(item)`). Dependency edges are dynamically recorded on property access, triggering surgical reactive notifications behind the scenes.
-2. **Constructor Self-Reactivity (`return makeReactive(this)`)**: Store classes and state models remain standard, idiomatic TypeScript classes. Returning `makeReactive(this)` inside the constructor turns any class instance into a deeply reactive model without base classes or decorators.
-3. **Automatic Microtask Batching**: Synchronous state mutations across multiple properties or store methods collapse into a single microtask turn, preventing intermediate recalculations and UI layout thrashing.
-4. **Deep Granular Collection Tracking**: Native support for `Array`, `Map`, and `Set` operations (`.push()`, `.set()`, `.delete()`, `.clear()`), triggering reactions only for affected indices, keys, lengths, and iterators.
-5. **Decoupled Multi-Framework UI Layer**: Domain logic lives independently of UI libraries, seamlessly connecting to React, Lit, SolidJS, or Vanilla DOM via dedicated adapter subpaths.
+### Core Pillars
+
+1. **Pure Domain Models**: Store classes and state models remain standard, idiomatic TypeScript classes. Returning `makeReactive(this)` inside the constructor turns any class instance into a deeply reactive model with direct property reads and writes—no decorators, base classes, or store boilerplate.
+2. **Ultra-Fast Signals & Automatic Batching**: Dependency edges are dynamically recorded on property access so updates trigger surgical reactions strictly for changed properties and collection indices. Synchronous state mutations across multiple properties collapse into a single microtask turn with zero UI flicker.
+3. **First-Class Observability**: Primitive-first lifecycle hooks, target-scoped observers, and telemetry hubs let you inspect state, trace dependency graphs, and audit mutations across developer tooling and agentic workflows.
+4. **Universal Framework Portability**: Domain logic lives independently of UI libraries, seamlessly connecting to React, Lit, SolidJS, or Vanilla DOM via dedicated adapter subpaths.
+5. **Zero Dependencies & Lightweight Core**: Under ~2.5 kB minified with zero external runtime dependencies, built directly on modern web primitives for maximum runtime speed and minimal bundle footprint.
 
 ### Architecture Topology
 
