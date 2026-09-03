@@ -21,7 +21,7 @@ features:
     details: Fine-grained dependency tracking and automatic microtask batching update only what changed with zero flicker.
     icon: 🚀
   - title: Pure Domain Models
-    details: Standard classes and objects—no decorators, no base classes, no store boilerplate (return makeReactive(this)).
+    details: Standard classes and objects—no decorators, no base classes, no store boilerplate.
     icon: 📦
   - title: First-Class Observability
     details: Built-in hooks and telemetry hubs ready for dev tooling and agentic workflows.

@@ -14,7 +14,7 @@
 ### Highlights
 
 - 🚀 **Ultra-Fast Signals**: Fine-grained dependency tracking and automatic microtask batching update only what changed with zero flicker.
-- 📦 **Pure Domain Models**: Standard classes and objects—no decorators, no base classes, no store boilerplate (`return makeReactive(this)`).
+- 📦 **Pure Domain Models**: Standard classes and objects—no decorators, no base classes, no store boilerplate.
 - 🔍 **First-Class Observability**: Built-in hooks and telemetry hubs ready for dev tooling and agentic workflows.
 - 🔌 **Universal Framework Adapters**: One domain model runs across React, Lit, SolidJS, and Vanilla DOM.
 - 🪶 **Zero Dependencies**: Lightweight engine (~2.5 kB minified) with 0 external dependencies.
@@ -64,7 +64,7 @@ Traditional state management often ties your business logic directly to a specif
 
 ### Core Pillars
 
-1. **Pure Domain Models**: Store classes and state models remain standard, idiomatic TypeScript classes. Returning `makeReactive(this)` inside the constructor turns any class instance into a deeply reactive model with direct property reads and writes—no decorators, base classes, or store boilerplate.
+1. **Pure Domain Models**: Store classes and state models remain standard, idiomatic TypeScript classes with direct property reads and writes—no decorators, base classes, or store boilerplate.
 2. **Ultra-Fast Signals & Automatic Batching**: Dependency edges are dynamically recorded on property access so updates trigger surgical reactions strictly for changed properties and collection indices. Synchronous state mutations across multiple properties collapse into a single microtask turn with zero UI flicker.
 3. **First-Class Observability**: Primitive-first lifecycle hooks, target-scoped observers, and telemetry hubs let you inspect state, trace dependency graphs, and audit mutations across developer tooling and agentic workflows.
 4. **Universal Framework Portability**: Domain logic lives independently of UI libraries, seamlessly connecting to React, Lit, SolidJS, or Vanilla DOM via dedicated adapter subpaths.
