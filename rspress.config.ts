@@ -30,7 +30,7 @@ export default defineConfig({
       {
         property: "og:description",
         content:
-          "High-performance, Proxy-based fine-grained reactive state framework with pure domain models, multi-framework adapters, and first-class observability.",
+          "An ultra-fast reactivity engine for the modern web with pure domain models and multi-framework adapters",
       },
     ],
     [
@@ -61,7 +61,7 @@ export default defineConfig({
       {
         name: "twitter:description",
         content:
-          "High-performance, Proxy-based fine-grained reactive state framework with pure domain models, multi-framework adapters, and first-class observability.",
+          "An ultra-fast reactivity engine for the modern web with pure domain models and multi-framework adapters",
       },
     ],
     [
