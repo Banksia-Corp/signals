@@ -106,11 +106,11 @@ export function registerOnReaction(cb: (sub: Subscriber) => void): () => void {
 }
 
 /**
- * Queues a set of subscribers for notification in the current or upcoming microtask batch.
+ * Queues a set or sequence of subscribers for notification in the current or upcoming microtask batch.
  *
- * @param subscribers - Set of subscribers requiring notification.
+ * @param subscribers - Iterable set or sequence of subscribers requiring notification.
  */
-export function scheduleNotification(subscribers: Set<Subscriber>): void {
+export function scheduleNotification(subscribers: Iterable<Subscriber>): void {
   for (const sub of subscribers) {
     queuedSubscribers.add(sub);
     if (hasScheduleObservers()) {

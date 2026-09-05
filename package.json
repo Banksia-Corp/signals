@@ -37,6 +37,10 @@
   "files": [
     "dist"
   ],
+  "sideEffects": [
+    "./dist/devtools.js",
+    "./src/devtools.ts"
+  ],
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",

@@ -449,6 +449,67 @@ export function createReactivityHub(options?: HubOptions): ReactivityHub {
 }
 
 /**
+ * Wildcard symbol key for tracking and triggering all-collection subscriber invalidations.
+ */
+export const ALL_KEY = Symbol.for("__ALL__");
+
+/**
+ * Creates a normalized {@link ReactiveSource} descriptor for an object property.
+ *
+ * @internal
+ */
+export function createPropertySource(
+  target: object,
+  property: string | symbol,
+  value: unknown,
+): ReactiveSource {
+  const targetName = target.constructor?.name || "Object";
+  const label = `${targetName}.${String(property)}`;
+  return {
+    id: label,
+    value,
+    meta: {
+      target,
+      targetName,
+      property,
+      label,
+      type: "property",
+    },
+  };
+}
+
+function invokeHooks<K extends keyof ReactivityHooks>(
+  key: K,
+  scopedTarget: object | undefined,
+  context: {
+    source?: ReactiveSource;
+    consumer?: ReactiveConsumer;
+    phase: string;
+  },
+  ...args: any[]
+): void {
+  const dispatch = (hook: ReactivityHooks) => {
+    const fn = hook[key] as any;
+    if (fn) {
+      try {
+        fn(...args);
+      } catch (err) {
+        dispatchError(err, context);
+      }
+    }
+  };
+
+  for (const hook of globalHooks) dispatch(hook);
+
+  if (scopedTarget) {
+    const scoped = scopedTargetHooks.get(scopedTarget);
+    if (scoped) {
+      for (const hook of scoped) dispatch(hook);
+    }
+  }
+}
+
+/**
  * Internal dispatcher invoked when a dependency edge is established.
  *
  * @internal
@@ -460,31 +521,13 @@ export function dispatchTrack(
   consumer: ReactiveConsumer,
 ): void {
   if (trackHookCount === 0) return;
-
-  for (const hook of globalHooks) {
-    if (hook.onTrack) {
-      try {
-        hook.onTrack(source, consumer);
-      } catch (err) {
-        dispatchError(err, { source, consumer, phase: "onTrack" });
-      }
-    }
-  }
-
-  if (source.meta.target) {
-    const scoped = scopedTargetHooks.get(source.meta.target);
-    if (scoped) {
-      for (const hook of scoped) {
-        if (hook.onTrack) {
-          try {
-            hook.onTrack(source, consumer);
-          } catch (err) {
-            dispatchError(err, { source, consumer, phase: "onTrack" });
-          }
-        }
-      }
-    }
-  }
+  invokeHooks(
+    "onTrack",
+    source.meta.target,
+    { source, consumer, phase: "onTrack" },
+    source,
+    consumer,
+  );
 }
 
 /**
@@ -499,31 +542,13 @@ export function dispatchNotify(
   change: ChangeEvent,
 ): void {
   if (notifyHookCount === 0) return;
-
-  for (const hook of globalHooks) {
-    if (hook.onNotify) {
-      try {
-        hook.onNotify(source, change);
-      } catch (err) {
-        dispatchError(err, { source, phase: "onNotify" });
-      }
-    }
-  }
-
-  if (source.meta.target) {
-    const scoped = scopedTargetHooks.get(source.meta.target);
-    if (scoped) {
-      for (const hook of scoped) {
-        if (hook.onNotify) {
-          try {
-            hook.onNotify(source, change);
-          } catch (err) {
-            dispatchError(err, { source, phase: "onNotify" });
-          }
-        }
-      }
-    }
-  }
+  invokeHooks(
+    "onNotify",
+    source.meta.target,
+    { source, phase: "onNotify" },
+    source,
+    change,
+  );
 }
 
 /**
@@ -534,16 +559,12 @@ export function dispatchNotify(
  */
 export function dispatchSchedule(consumer: ReactiveConsumer): void {
   if (scheduleHookCount === 0) return;
-
-  for (const hook of globalHooks) {
-    if (hook.onSchedule) {
-      try {
-        hook.onSchedule(consumer);
-      } catch (err) {
-        dispatchError(err, { consumer, phase: "onSchedule" });
-      }
-    }
-  }
+  invokeHooks(
+    "onSchedule",
+    undefined,
+    { consumer, phase: "onSchedule" },
+    consumer,
+  );
 }
 
 /**
@@ -558,16 +579,13 @@ export function dispatchExecute(
   context: ExecutionContext,
 ): void {
   if (executeHookCount === 0) return;
-
-  for (const hook of globalHooks) {
-    if (hook.onExecute) {
-      try {
-        hook.onExecute(consumer, context);
-      } catch (err) {
-        dispatchError(err, { consumer, phase: "onExecute" });
-      }
-    }
-  }
+  invokeHooks(
+    "onExecute",
+    undefined,
+    { consumer, phase: "onExecute" },
+    consumer,
+    context,
+  );
 }
 
 /**
@@ -578,16 +596,7 @@ export function dispatchExecute(
  */
 export function dispatchBatch(stats: BatchStats): void {
   if (batchHookCount === 0) return;
-
-  for (const hook of globalHooks) {
-    if (hook.onBatch) {
-      try {
-        hook.onBatch(stats);
-      } catch (err) {
-        dispatchError(err, { phase: "onBatch" });
-      }
-    }
-  }
+  invokeHooks("onBatch", undefined, { phase: "onBatch" }, stats);
 }
 
 /**
@@ -656,18 +665,11 @@ export function trackDependency(
   activeSub.dependencies.add(subs);
 
   if (hasTrackObservers()) {
-    const targetName = rawTarget.constructor?.name || "Object";
-    const source: ReactiveSource = {
-      id: `${targetName}.${String(property)}`,
-      value: (rawTarget as any)[property],
-      meta: {
-        target: rawTarget,
-        targetName,
-        property,
-        label: `${targetName}.${String(property)}`,
-        type: "property",
-      },
-    };
+    const source = createPropertySource(
+      rawTarget,
+      property,
+      (rawTarget as any)[property],
+    );
     const consumer: ReactiveConsumer = {
       id: activeSub.id || "anonymous-subscriber",
       name: activeSub.name || "AnonymousSubscriber",
@@ -692,20 +694,9 @@ export function triggerMutation(
   newValue: unknown,
 ): void {
   const rawTarget = toRaw(target);
-  const targetName = rawTarget.constructor?.name || "Object";
 
   if (hasNotifyObservers()) {
-    const source: ReactiveSource = {
-      id: `${targetName}.${String(property)}`,
-      value: newValue,
-      meta: {
-        target: rawTarget,
-        targetName,
-        property,
-        label: `${targetName}.${String(property)}`,
-        type: "property",
-      },
-    };
+    const source = createPropertySource(rawTarget, property, newValue);
     dispatchNotify(source, {
       oldValue,
       newValue,
@@ -717,18 +708,13 @@ export function triggerMutation(
   if (!propMap) return;
 
   const directSubs = propMap.get(property);
-  const wildcardSubs = propMap.get(Symbol.for("__ALL__"));
+  const wildcardSubs = propMap.get(ALL_KEY);
 
-  const toNotify = new Set<Subscriber>();
-  if (directSubs) {
-    for (const sub of directSubs) toNotify.add(sub);
+  if (directSubs && directSubs.size > 0) {
+    scheduleNotification(directSubs);
   }
-  if (wildcardSubs) {
-    for (const sub of wildcardSubs) toNotify.add(sub);
-  }
-
-  if (toNotify.size > 0) {
-    scheduleNotification(toNotify);
+  if (wildcardSubs && wildcardSubs.size > 0) {
+    scheduleNotification(wildcardSubs);
   }
 }
 

@@ -10,7 +10,7 @@ import {
   IS_REACTIVE,
   RAW_TARGET,
 } from "./collections";
-import { trackDependency, triggerMutation } from "./observability";
+import { ALL_KEY, trackDependency, triggerMutation } from "./observability";
 import { batch } from "./scheduler";
 
 const proxyCache = new WeakMap<object, object>();
@@ -158,7 +158,7 @@ export function makeReactive<T>(target: T): T {
       if (typeof prop === "string" || typeof prop === "number") {
         trackDependency(target, prop);
       } else if (prop === Symbol.iterator) {
-        trackDependency(target, Symbol.for("__ALL__"));
+        trackDependency(target, ALL_KEY);
       }
 
       const value = Reflect.get(target, prop, receiver);
@@ -222,7 +222,7 @@ export function makeReactive<T>(target: T): T {
     },
 
     ownKeys(target) {
-      trackDependency(target, Symbol.for("__ALL__"));
+      trackDependency(target, ALL_KEY);
       return Reflect.ownKeys(target);
     },
   };

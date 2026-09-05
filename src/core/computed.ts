@@ -48,7 +48,7 @@ let computedCounter = 0;
  * @internal
  * @template T - The return type of the computation.
  */
-class ComputedImpl<T> implements Subscriber {
+class ComputedImpl<T> implements Subscriber, ReadonlySignal<T> {
   public id: string;
   public name: string;
   public type = "computed" as const;
@@ -199,10 +199,5 @@ class ComputedImpl<T> implements Subscriber {
  * ```
  */
 export function computed<T>(getter: () => T, name?: string): ReadonlySignal<T> {
-  const comp = new ComputedImpl(getter, name);
-  return {
-    get value() {
-      return comp.value;
-    },
-  };
+  return new ComputedImpl(getter, name);
 }
