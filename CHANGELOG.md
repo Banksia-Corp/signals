@@ -1,5 +1,11 @@
 # @banksia/signals
 
+## 0.1.7
+
+### Patch Changes
+
+- [#54](https://github.com/Banksia-Corp/signals/pull/54) [`a1de484`](https://github.com/Banksia-Corp/signals/commit/a1de484f39417cb8c4be717bf7b4be3752a6a7f0) Thanks [@luismiddleton](https://github.com/luismiddleton)! - docs: integrate `@rspress/plugin-typedoc` for native API documentation routing, LLM-native documentation (`llms.txt`, `llms-full.txt`), OpenGraph and SEO metadata, and quality gate refinements.
+
 ## 0.1.6
 
 ### Patch Changes
