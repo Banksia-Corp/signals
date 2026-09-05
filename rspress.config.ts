@@ -104,7 +104,16 @@ export default defineConfig({
     nav: [
       { text: "Guide", link: "/getting-started/overview" },
       { text: "Concepts", link: "/core-concepts/signals" },
-      { text: "Framework Adapters", link: "/framework-adapters/react" },
+      {
+        text: "Framework Adapters",
+        items: [
+          { text: "Overview", link: "/framework-adapters/" },
+          { text: "React", link: "/framework-adapters/react" },
+          { text: "Lit", link: "/framework-adapters/lit" },
+          { text: "SolidJS", link: "/framework-adapters/solid" },
+          { text: "Vanilla JS & DOM", link: "/framework-adapters/vanilla" },
+        ],
+      },
       { text: "Observability", link: "/devtools-mcp/telemetry" },
       { text: "API", link: "/api-reference/" },
     ],

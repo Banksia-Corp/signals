@@ -81,6 +81,7 @@ const docsSections = [
   {
     title: "Framework Adapters",
     pages: [
+      { name: "Overview & Architecture", file: "framework-adapters/index.md" },
       { name: "React Adapter", file: "framework-adapters/react.md" },
       { name: "Lit Adapter", file: "framework-adapters/lit.md" },
       { name: "SolidJS Adapter", file: "framework-adapters/solid.md" },
