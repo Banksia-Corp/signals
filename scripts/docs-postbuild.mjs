@@ -61,6 +61,7 @@ const docsSections = [
   {
     title: "Concepts",
     pages: [
+      { name: "Overview & Architecture", file: "core-concepts/index.md" },
       { name: "Signals", file: "core-concepts/signals.md" },
       { name: "Computed", file: "core-concepts/computed.md" },
       { name: "Effects", file: "core-concepts/effects.md" },

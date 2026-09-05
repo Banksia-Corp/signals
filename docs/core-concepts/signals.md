@@ -1,6 +1,16 @@
 # Signals
 
-A **Signal** is a foundational reactive primitive that wraps an individual value in a reactive container. Accessing `.value` records a dependency in any active observer, and assigning a new value to `.value` schedules reactive updates across all downstream consumers.
+A **Signal** is a foundational reactive primitive that wraps an individual value in a reactive container. In the [Reactive Architecture](./), signals serve as the **state sources (root nodes)** of the dependency graph: accessing `.value` dynamically records dependencies in any active subscriber, and assigning a new value to `.value` schedules surgical invalidations across all downstream consumers.
+
+---
+
+## Why Signals? (Architectural Purpose)
+
+In the [Reactive Triad](./#the-reactive-triad-sources-pipelines--sinks), signals represent the primary source of truth:
+
+1. **Fine-Grained Root State**: Unlike monolithic stores that trigger broad component renders on any mutation, signals isolate change notifications to the exact expressions or DOM nodes that read them.
+2. **Transparent Dependency Registration**: Reading `.value` within a [`computed`](./computed) or [`effect`](./effects) establishes a reactive edge automatically without manual subscription boilerplate.
+3. **Dirty Notification Trigger**: Writing to `.value` initiates the **push phase** of the reactive engine, marking downstream computeds dirty and queueing dependent effects in the microtask batch scheduler.
 
 ---
 
@@ -26,7 +36,7 @@ console.log(count.value); // 1
 
 ## Equality Checks with `Object.is`
 
-Signal mutations are evaluated with `Object.is()`. If a value is assigned that is identical to the current value, the write is treated as a no-op and no notifications are dispatched:
+Signal mutations are evaluated with `Object.is()`. If a value is assigned that is identical to the current value, the write is treated as a no-op and no downstream notifications are dispatched:
 
 ```typescript
 const username = signal("Ada");
@@ -66,6 +76,15 @@ multiplier.value = 10; // No reaction
 // Mutating count triggers the effect with the latest multiplier:
 count.value = 5; // Logs: "Product: 50"
 ```
+
+---
+
+## Next Steps
+
+- **[Reactive Architecture Overview](./)**: Understand how signals coordinate with computeds and effects.
+- **[Computed](./computed)**: Build lazy, memoized derivations from signals.
+- **[Effects](./effects)**: Synchronize signal state with external systems.
+- **[Reactive Objects](./reactive-proxies)**: Make complex objects and classes reactive without wrapping individual properties in signals.
 
 ---
 

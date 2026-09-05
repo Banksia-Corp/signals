@@ -43,7 +43,7 @@
     "docs": "typedoc",
     "docs:api": "typedoc",
     "docs:dev": "rspress dev",
-    "docs:build": "typedoc && rspress build && node scripts/docs-postbuild.mjs",
+    "docs:build": "rspress build && node scripts/docs-postbuild.mjs",
     "docs:preview": "rspress preview",
     "docs:watch": "typedoc --watch",
     "format": "prettier --write .",

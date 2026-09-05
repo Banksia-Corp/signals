@@ -8,7 +8,7 @@
     "src/vanilla.ts",
     "src/devtools.ts"
   ],
-  "out": "docs/api",
+  "out": "docs_api",
   "name": "@banksia/signals API Documentation",
   "readme": "README.md",
   "tsconfig": "tsconfig.json",

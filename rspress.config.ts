@@ -103,7 +103,15 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "Guide", link: "/getting-started/overview" },
-      { text: "Concepts", link: "/core-concepts/signals" },
+      {
+        text: "Concepts",
+        items: [
+          { text: "Overview", link: "/core-concepts/" },
+          { text: "Signals", link: "/core-concepts/signals" },
+          { text: "Computed", link: "/core-concepts/computed" },
+          { text: "Effects", link: "/core-concepts/effects" },
+        ],
+      },
       {
         text: "Framework Adapters",
         items: [
