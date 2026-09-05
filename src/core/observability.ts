@@ -8,7 +8,7 @@ import {
   getActiveSubscriber,
   scheduleNotification,
 } from "./scheduler";
-import { toRaw } from "./proxy";
+import { toRaw } from "./raw";
 
 /**
  * Metadata descriptor describing the origin and classification of a reactive source.

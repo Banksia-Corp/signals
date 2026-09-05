@@ -3,7 +3,8 @@
  * Fine-grained reactive signal primitive.
  */
 
-import { makeReactive } from "./proxy";
+import { RAW_TARGET, IS_REACTIVE } from "./raw";
+import { trackDependency, triggerMutation } from "./observability";
 
 /**
  * Interface representing a mutable reactive signal container.
@@ -35,11 +36,58 @@ export interface Signal<T> {
 }
 
 /**
+ * Concrete implementation of a mutable reactive signal container.
+ *
+ * @template T - The type of value held by the signal.
+ */
+export class SignalImpl<T> implements Signal<T> {
+  private _raw: { value: T };
+
+  constructor(initialValue: T) {
+    this._raw = { value: initialValue };
+  }
+
+  /**
+   * Reads the current signal value and records a dependency edge in the active reactive context.
+   */
+  get value(): T {
+    trackDependency(this._raw, "value");
+    return this._raw.value;
+  }
+
+  /**
+   * Updates the signal value and triggers notifications to dependent subscribers if the value changed.
+   */
+  set value(nextValue: T) {
+    const prev = this._raw.value;
+    if (!Object.is(prev, nextValue)) {
+      this._raw.value = nextValue;
+      triggerMutation(this._raw, "value", prev, nextValue);
+    }
+  }
+
+  /**
+   * Returns the underlying unproxied raw container object for non-tracking reads.
+   */
+  get [RAW_TARGET](): { value: T } {
+    return this._raw;
+  }
+
+  /**
+   * Reactivity flag indicating this container is a reactive primitive.
+   */
+  get [IS_REACTIVE](): boolean {
+    return true;
+  }
+}
+
+/**
  * Creates a reactive signal holding an initial value.
  *
  * @remarks
  * Signals are the fundamental unit of state in the reactivity engine.
- * They leverage JavaScript `Proxy` wrappers internally to track property reads and intercept mutations.
+ * Accessing `.value` records dependencies in active effects or computeds, and mutating `.value`
+ * schedules reactions for downstream subscribers.
  *
  * @template T - The type of value held by the signal.
  * @param initialValue - The initial value to store in the signal.
@@ -56,6 +104,5 @@ export interface Signal<T> {
  * ```
  */
 export function signal<T>(initialValue: T): Signal<T> {
-  const container = makeReactive({ value: initialValue });
-  return container;
+  return new SignalImpl(initialValue);
 }

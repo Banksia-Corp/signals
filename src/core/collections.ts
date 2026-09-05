@@ -5,6 +5,9 @@
 
 import { ALL_KEY, trackDependency, triggerMutation } from "./observability";
 import { batch } from "./scheduler";
+import { RAW_TARGET, IS_REACTIVE } from "./raw";
+
+export { RAW_TARGET, IS_REACTIVE };
 
 function triggerCollectionChange(
   target: object,
@@ -22,16 +25,6 @@ function triggerCollectionChange(
   }
   triggerMutation(target, ALL_KEY, undefined, undefined);
 }
-
-/**
- * Symbol key used internally and on reactive proxies to retrieve the underlying unproxied target object.
- */
-export const RAW_TARGET = Symbol("RAW_TARGET");
-
-/**
- * Symbol key used to detect whether an object or collection is wrapped in a reactive Proxy.
- */
-export const IS_REACTIVE = Symbol("IS_REACTIVE");
 
 /**
  * Higher-order recursive reactivity transformer function type.
