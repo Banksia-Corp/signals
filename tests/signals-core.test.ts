@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import {
   makeReactive,
   signal,
+  SignalImpl,
   computed,
   effect,
   batch,
@@ -9,6 +10,8 @@ import {
   getDependencyGraph,
   registerOnMutation,
   registerOnReaction,
+  toRaw,
+  isReactive,
 } from "../src/index";
 
 interface UserProps {
@@ -231,5 +234,65 @@ describe("@banksia/signals - Core BDD Tests", () => {
     );
 
     unregisterMutation();
+  });
+
+  it("Given a signal container, tracks dependencies on .value and reacts to distinct mutations", () => {
+    const count = signal(0);
+    const spy = vi.fn();
+
+    expect(isReactive(count)).toBe(true);
+    expect(count instanceof SignalImpl).toBe(true);
+
+    effect(() => {
+      spy(count.value);
+    });
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenLastCalledWith(0);
+
+    // Identical value: no reaction
+    count.value = 0;
+    flushBatch();
+    expect(spy).toHaveBeenCalledTimes(1);
+
+    // Distinct value: triggers reaction
+    count.value = 1;
+    flushBatch();
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(spy).toHaveBeenLastCalledWith(1);
+  });
+
+  it("Given a signal container, toRaw unwraps raw state for non-tracking reads", () => {
+    const count = signal(0);
+    const multiplier = signal(2);
+    const spy = vi.fn();
+
+    effect(() => {
+      const c = count.value;
+      const factor = toRaw(multiplier).value;
+      spy(c * factor);
+    });
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenLastCalledWith(0);
+
+    // Mutating multiplier does NOT trigger reaction because factor was read via toRaw
+    multiplier.value = 10;
+    flushBatch();
+    expect(spy).toHaveBeenCalledTimes(1);
+
+    // Mutating count triggers reaction with latest multiplier value
+    count.value = 5;
+    flushBatch();
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(spy).toHaveBeenLastCalledWith(50);
+
+    // toRaw preserves identity and reflection
+    expect(toRaw(multiplier)).toBe(toRaw(multiplier));
+    expect(isReactive(toRaw(multiplier))).toBe(false);
+
+    // Graph inspection works for signals
+    const graph = getDependencyGraph(count);
+    expect(graph.properties["value"]?.subscriberCount).toBe(1);
   });
 });

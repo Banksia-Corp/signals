@@ -33,6 +33,7 @@ const BUDGETS = [
     name: "@banksia/signals (Core Engine Closure)",
     files: [
       "dist/index.js",
+      "dist/core/raw.js",
       "dist/core/signal.js",
       "dist/core/proxy.js",
       "dist/core/collections.js",

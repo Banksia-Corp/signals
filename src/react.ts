@@ -11,7 +11,6 @@ import React, {
   useEffect,
 } from "react";
 import { effect } from "./core/effect";
-import { makeReactive } from "./core/proxy";
 import { signal, Signal } from "./core/signal";
 import { computed, ReadonlySignal } from "./core/computed";
 
