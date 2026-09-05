@@ -7,7 +7,7 @@
   {
     "type": "dir",
     "name": "core-concepts",
-    "label": "Core Concepts"
+    "label": "Concepts"
   },
   {
     "type": "dir",
@@ -22,7 +22,7 @@
   {
     "type": "dir",
     "name": "api-reference",
-    "label": "API Reference"
+    "label": "API"
   },
   {
     "type": "group",

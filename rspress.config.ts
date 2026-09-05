@@ -103,11 +103,10 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: "Guide", link: "/getting-started/overview" },
-      { text: "Core Concepts", link: "/core-concepts/signals" },
+      { text: "Concepts", link: "/core-concepts/signals" },
       { text: "Framework Adapters", link: "/framework-adapters/react" },
       { text: "Observability", link: "/devtools-mcp/telemetry" },
-      { text: "API Reference", link: "/api-reference/" },
-      { text: "TypeDoc Portal", link: "/api/" },
+      { text: "API", link: "/api-reference/" },
     ],
     socialLinks: [
       {

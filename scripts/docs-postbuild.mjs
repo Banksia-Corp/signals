@@ -59,7 +59,7 @@ const docsSections = [
     ],
   },
   {
-    title: "Core Concepts",
+    title: "Concepts",
     pages: [
       { name: "Signals", file: "core-concepts/signals.md" },
       { name: "Computed", file: "core-concepts/computed.md" },
