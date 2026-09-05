@@ -1,4 +1,4 @@
-# Vanilla JS & DOM Adapter
+# Vanilla DOM Adapter
 
 The `@banksia/signals/vanilla` subpath provides zero-dependency DOM synchronization helpers for micro-frontends, lightweight landing pages, and standalone scripts without any UI framework overhead.
 

@@ -88,7 +88,7 @@ pnpm exec lefthook run pre-commit
 
 ### Documentation Integrity
 
-- Whenever public APIs, subpath exports, or framework integrations are modified or added, update both [`README.md`](../README.md) and [`AGENTS.md`](../AGENTS.md).
+- Whenever public APIs, subpath exports, or framework integrations are modified or added, update both [`README.md`](https://github.com/Banksia-Corp/signals/blob/main/README.md) and [`AGENTS.md`](https://github.com/Banksia-Corp/signals/blob/main/AGENTS.md).
 - Keep API matrix tables and code examples accurate and functional.
 
 ---

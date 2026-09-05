@@ -79,7 +79,7 @@ pnpm changeset status
 
 ## 4. Release Automation & CI Lifecycle
 
-Releases are fully automated via GitHub Actions in [`.github/workflows/release.yml`](../.github/workflows/release.yml):
+Releases are fully automated via GitHub Actions in [`.github/workflows/release.yml`](https://github.com/Banksia-Corp/signals/blob/main/.github/workflows/release.yml):
 
 ```mermaid
 flowchart TD
@@ -96,6 +96,6 @@ flowchart TD
 1. **Continuous Aggregation**: When PRs with changesets merge to `main`, the Release action aggregates them into a release PR (`chore(release): version packages`).
 2. **Release Execution**: When the release PR is merged:
    - Package is built via `pnpm run build`.
-   - Published to **npm** with OIDC provenance via [`scripts/release-publish.sh`](../scripts/release-publish.sh) and `pnpm exec changeset publish`.
+   - Published to **npm** with OIDC provenance via [`scripts/release-publish.sh`](https://github.com/Banksia-Corp/signals/blob/main/scripts/release-publish.sh) and `pnpm exec changeset publish`.
    - Published to **JSR** via `npx jsr publish`.
    - Official **GitHub Releases** and version tags (e.g. `@banksia/signals@X.Y.Z`) are automatically published to the repository with structured release notes extracted from `CHANGELOG.md` via `changesets/action@v1`.
