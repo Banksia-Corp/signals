@@ -1,5 +1,31 @@
 # @banksia/signals
 
+## 0.2.0
+
+### Minor Changes
+
+- [#59](https://github.com/Banksia-Corp/signals/pull/59) [`f9da2cd`](https://github.com/Banksia-Corp/signals/commit/f9da2cd312439cc4e23a3fd1ce2ab9f47be43365) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Decouple `signal()` from collections and proxy subsystems for downstream tree-shaking and throughput (Phase 2 of #57):
+
+  - Implemented `SignalImpl` class for `signal()`, eliminating JavaScript `Proxy` overhead and achieving up to 7x higher raw read/write throughput (21.6M ops/sec reads).
+  - Extracted lightweight raw target reflection utilities and symbols (`RAW_TARGET`, `IS_REACTIVE`, `toRaw`, `isReactive`) into standalone zero-dependency module `src/core/raw.ts`.
+  - Decoupled `src/core/observability.ts` from `src/core/proxy.ts`, breaking circular dependency edges with `src/core/collections.ts`.
+  - Removed unused `makeReactive` static import in React adapter (`src/react.ts`).
+  - Downstream bundlers (Vite, Webpack, Rollup) now eliminate `collections.js` and `proxy.js` entirely when only `signal`, `computed`, or `effect` are imported, reducing downstream signal bundles from 4.22 kB down to 837 B (496 B gzip, an 80.2% reduction).
+
+  Co-authored-by: Google Antigravity <ai@google.com>
+
+### Patch Changes
+
+- [#58](https://github.com/Banksia-Corp/signals/pull/58) [`f1abde2`](https://github.com/Banksia-Corp/signals/commit/f1abde2b72f1a2b204536841245465fd2ac34070) Thanks [@luismiddleton](https://github.com/luismiddleton)! - Optimize core closure bundle size, downstream tree-shaking, and dispatch throughput (Phase 1 of #57):
+
+  - Added `sideEffects` configuration to `package.json` to allow consumer bundlers (Vite, Webpack, Rollup) to prune unreferenced core primitives on partial imports.
+  - Consolidated hook dispatching and metadata allocation in `src/core/observability.ts`.
+  - Eliminated intermediate Set allocations during mutation subscriber notification in `triggerMutation`.
+  - Deduplicated Map and Set mutation handlers and iteration logic in `src/core/collections.ts`.
+  - Streamlined `computed()` by returning `ComputedImpl` directly without forwarding wrapper objects.
+
+  Co-authored-by: Google Antigravity <ai@google.com>
+
 ## 0.1.7
 
 ### Patch Changes
