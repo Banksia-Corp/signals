@@ -96,4 +96,4 @@ Adapters automatically manage subscription lifecycles. When a React component un
 - ⚛️ **[React Adapter Guide](./react.md)** — Learn how to use `useReactive` and `observer` in functional components.
 - ⚡ **[Lit Adapter Guide](./lit.md)** — Integrate reactive domain models with Lit `ReactiveController` lifecycles.
 - 🔷 **[SolidJS Adapter Guide](./solid.md)** — Bridge proxy stores into native SolidJS reactive accessors.
-- 🍦 **[Vanilla JS & DOM Guide](./vanilla.md)** — Surgically synchronize HTML elements without virtual DOM overhead.
+- 🍦 **[Vanilla DOM Guide](./vanilla.md)** — Surgically synchronize HTML elements without virtual DOM overhead.

@@ -86,7 +86,7 @@ const docsSections = [
       { name: "Lit Adapter", file: "framework-adapters/lit.md" },
       { name: "SolidJS Adapter", file: "framework-adapters/solid.md" },
       {
-        name: "Vanilla JS & DOM Adapter",
+        name: "Vanilla DOM Adapter",
         file: "framework-adapters/vanilla.md",
       },
     ],

@@ -111,7 +111,7 @@ export default defineConfig({
           { text: "React", link: "/framework-adapters/react" },
           { text: "Lit", link: "/framework-adapters/lit" },
           { text: "SolidJS", link: "/framework-adapters/solid" },
-          { text: "Vanilla JS & DOM", link: "/framework-adapters/vanilla" },
+          { text: "Vanilla DOM", link: "/framework-adapters/vanilla" },
         ],
       },
       { text: "Observability", link: "/devtools-mcp/telemetry" },
