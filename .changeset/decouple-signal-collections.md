@@ -1,5 +1,5 @@
 ---
-"@banksia/signals": patch
+"@banksia/signals": minor
 ---
 
 Decouple `signal()` from collections and proxy subsystems for downstream tree-shaking and throughput (Phase 2 of #57):
