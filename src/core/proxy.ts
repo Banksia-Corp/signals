@@ -7,71 +7,15 @@ import {
   createArrayProxy,
   createMapProxy,
   createSetProxy,
-  IS_REACTIVE,
-  RAW_TARGET,
 } from "./collections";
-import { trackDependency, triggerMutation } from "./observability";
+import { ALL_KEY, trackDependency, triggerMutation } from "./observability";
 import { batch } from "./scheduler";
+import { RAW_TARGET, IS_REACTIVE, toRaw, isReactive } from "./raw";
+
+export { RAW_TARGET, IS_REACTIVE, toRaw, isReactive };
 
 const proxyCache = new WeakMap<object, object>();
 const rawCache = new WeakSet<object>();
-
-/**
- * Checks whether a given target object is an active reactive Proxy wrapper.
- *
- * @param target - The value or object to inspect.
- * @returns `true` if the target is a reactive Proxy; otherwise `false`.
- *
- * @example
- * ```ts
- * import { makeReactive, isReactive } from '@banksia/signals';
- *
- * const state = { count: 0 };
- * const reactiveState = makeReactive(state);
- *
- * console.log(isReactive(state)); // false
- * console.log(isReactive(reactiveState)); // true
- * ```
- */
-export function isReactive(target: unknown): boolean {
-  return (
-    typeof target === "object" &&
-    target !== null &&
-    Boolean((target as any)[IS_REACTIVE])
-  );
-}
-
-/**
- * Unwraps a reactive Proxy to return the underlying raw JavaScript target object.
- *
- * @remarks
- * If the provided value is not a reactive Proxy, it is returned unchanged.
- * Useful when passing data to external libraries that require unmodified references or when avoiding proxy overhead during serialization.
- *
- * @template T - The type of the target object.
- * @param target - The reactive proxy or plain object to unwrap.
- * @returns The original unproxied object reference.
- *
- * @example
- * ```ts
- * import { makeReactive, toRaw } from '@banksia/signals';
- *
- * const raw = { user: 'Alice' };
- * const proxied = makeReactive(raw);
- *
- * console.log(toRaw(proxied) === raw); // true
- * ```
- */
-export function toRaw<T>(target: T): T {
-  if (
-    typeof target === "object" &&
-    target !== null &&
-    (target as any)[RAW_TARGET]
-  ) {
-    return (target as any)[RAW_TARGET] as T;
-  }
-  return target;
-}
 
 /**
  * Wraps a target object, class instance, Array, Set, or Map in a deep fine-grained reactive `Proxy`.
@@ -158,7 +102,7 @@ export function makeReactive<T>(target: T): T {
       if (typeof prop === "string" || typeof prop === "number") {
         trackDependency(target, prop);
       } else if (prop === Symbol.iterator) {
-        trackDependency(target, Symbol.for("__ALL__"));
+        trackDependency(target, ALL_KEY);
       }
 
       const value = Reflect.get(target, prop, receiver);
@@ -222,7 +166,7 @@ export function makeReactive<T>(target: T): T {
     },
 
     ownKeys(target) {
-      trackDependency(target, Symbol.for("__ALL__"));
+      trackDependency(target, ALL_KEY);
       return Reflect.ownKeys(target);
     },
   };

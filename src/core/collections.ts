@@ -3,18 +3,28 @@
  * Fine-grained reactive Proxy adapters for native JavaScript collections (Array, Map, Set).
  */
 
-import { trackDependency, triggerMutation } from "./observability";
+import { ALL_KEY, trackDependency, triggerMutation } from "./observability";
 import { batch } from "./scheduler";
+import { RAW_TARGET, IS_REACTIVE } from "./raw";
 
-/**
- * Symbol key used internally and on reactive proxies to retrieve the underlying unproxied target object.
- */
-export const RAW_TARGET = Symbol("RAW_TARGET");
+export { RAW_TARGET, IS_REACTIVE };
 
-/**
- * Symbol key used to detect whether an object or collection is wrapped in a reactive Proxy.
- */
-export const IS_REACTIVE = Symbol("IS_REACTIVE");
+function triggerCollectionChange(
+  target: object,
+  key?: string | symbol,
+  oldVal?: unknown,
+  newVal?: unknown,
+  oldSize?: number,
+  newSize?: number,
+): void {
+  if (key !== undefined) {
+    triggerMutation(target, key, oldVal, newVal);
+  }
+  if (oldSize !== undefined && oldSize !== newSize) {
+    triggerMutation(target, "size", oldSize, newSize);
+  }
+  triggerMutation(target, ALL_KEY, undefined, undefined);
+}
 
 /**
  * Higher-order recursive reactivity transformer function type.
@@ -69,7 +79,7 @@ export function createArrayProxy<T>(
         trackDependency(target, prop);
       } else if (prop === "length" || prop === Symbol.iterator) {
         trackDependency(target, "length");
-        trackDependency(target, Symbol.for("__ALL__"));
+        trackDependency(target, ALL_KEY);
       }
 
       if (typeof prop === "string" && mutatingMethods.includes(prop)) {
@@ -78,12 +88,7 @@ export function createArrayProxy<T>(
             const oldLength = target.length;
             const res = (Array.prototype as any)[prop].apply(target, args);
             triggerMutation(target, "length", oldLength, target.length);
-            triggerMutation(
-              target,
-              Symbol.for("__ALL__"),
-              undefined,
-              undefined,
-            );
+            triggerMutation(target, ALL_KEY, undefined, undefined);
             return res;
           });
         };
@@ -181,18 +186,13 @@ export function createMapProxy<K, V>(
           const oldVal = target.get(key);
           if (!hadKey || !Object.is(oldVal, value)) {
             target.set(key, value);
-            triggerMutation(target, key as unknown as string, oldVal, value);
-            triggerMutation(
+            triggerCollectionChange(
               target,
-              "size",
+              key as unknown as string,
+              oldVal,
+              value,
               hadKey ? target.size : target.size - 1,
               target.size,
-            );
-            triggerMutation(
-              target,
-              Symbol.for("__ALL__"),
-              undefined,
-              undefined,
             );
           }
           return receiver;
@@ -205,18 +205,13 @@ export function createMapProxy<K, V>(
           const oldVal = target.get(key);
           if (hadKey) {
             const res = target.delete(key);
-            triggerMutation(
+            triggerCollectionChange(
               target,
               key as unknown as string,
               oldVal,
               undefined,
-            );
-            triggerMutation(target, "size", target.size + 1, target.size);
-            triggerMutation(
-              target,
-              Symbol.for("__ALL__"),
-              undefined,
-              undefined,
+              target.size + 1,
+              target.size,
             );
             return res;
           }
@@ -229,12 +224,13 @@ export function createMapProxy<K, V>(
           const oldSize = target.size;
           if (oldSize > 0) {
             target.clear();
-            triggerMutation(target, "size", oldSize, 0);
-            triggerMutation(
+            triggerCollectionChange(
               target,
-              Symbol.for("__ALL__"),
               undefined,
               undefined,
+              undefined,
+              oldSize,
+              0,
             );
           }
         };
@@ -245,7 +241,7 @@ export function createMapProxy<K, V>(
           callbackfn: (value: V, key: K, map: Map<K, V>) => void,
           thisArg?: unknown,
         ) => {
-          trackDependency(target, Symbol.for("__ALL__"));
+          trackDependency(target, ALL_KEY);
           trackDependency(target, "size");
           target.forEach((val, key) => {
             const rVal = isObject(val) ? makeReactive(val) : val;
@@ -261,10 +257,9 @@ export function createMapProxy<K, V>(
         prop === Symbol.iterator
       ) {
         return () => {
-          trackDependency(target, Symbol.for("__ALL__"));
+          trackDependency(target, ALL_KEY);
           trackDependency(target, "size");
-          const iterator = (target as any)[prop]();
-          return iterator;
+          return (target as any)[prop]();
         };
       }
 
@@ -324,18 +319,13 @@ export function createSetProxy<T>(
           const hadValue = target.has(value);
           if (!hadValue) {
             target.add(value);
-            triggerMutation(
+            triggerCollectionChange(
               target,
               value as unknown as string,
               undefined,
               value,
-            );
-            triggerMutation(target, "size", target.size - 1, target.size);
-            triggerMutation(
-              target,
-              Symbol.for("__ALL__"),
-              undefined,
-              undefined,
+              target.size - 1,
+              target.size,
             );
           }
           return receiver;
@@ -347,18 +337,13 @@ export function createSetProxy<T>(
           const hadValue = target.has(value);
           if (hadValue) {
             const res = target.delete(value);
-            triggerMutation(
+            triggerCollectionChange(
               target,
               value as unknown as string,
               value,
               undefined,
-            );
-            triggerMutation(target, "size", target.size + 1, target.size);
-            triggerMutation(
-              target,
-              Symbol.for("__ALL__"),
-              undefined,
-              undefined,
+              target.size + 1,
+              target.size,
             );
             return res;
           }
@@ -371,12 +356,13 @@ export function createSetProxy<T>(
           const oldSize = target.size;
           if (oldSize > 0) {
             target.clear();
-            triggerMutation(target, "size", oldSize, 0);
-            triggerMutation(
+            triggerCollectionChange(
               target,
-              Symbol.for("__ALL__"),
               undefined,
               undefined,
+              undefined,
+              oldSize,
+              0,
             );
           }
         };
@@ -387,7 +373,7 @@ export function createSetProxy<T>(
           callbackfn: (value: T, value2: T, set: Set<T>) => void,
           thisArg?: unknown,
         ) => {
-          trackDependency(target, Symbol.for("__ALL__"));
+          trackDependency(target, ALL_KEY);
           trackDependency(target, "size");
           target.forEach((val) => {
             const rVal = isObject(val) ? makeReactive(val) : val;
@@ -403,7 +389,7 @@ export function createSetProxy<T>(
         prop === Symbol.iterator
       ) {
         return () => {
-          trackDependency(target, Symbol.for("__ALL__"));
+          trackDependency(target, ALL_KEY);
           trackDependency(target, "size");
           return (target as any)[prop]();
         };
