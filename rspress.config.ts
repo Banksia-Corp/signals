@@ -1,5 +1,6 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { pluginTypeDoc } from "@rspress/plugin-typedoc";
 import { defineConfig } from "rspress/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -85,18 +86,20 @@ export default defineConfig({
   ],
   route: {
     cleanUrls: true,
-    exclude: ["**/api/**", "**/api/**/*"],
   },
-  builderConfig: {
-    output: {
-      copy: [
-        {
-          from: path.join(__dirname, "docs/api"),
-          to: "api",
-        },
+  plugins: [
+    pluginTypeDoc({
+      entryPoints: [
+        path.join(__dirname, "src/index.ts"),
+        path.join(__dirname, "src/react.ts"),
+        path.join(__dirname, "src/lit.ts"),
+        path.join(__dirname, "src/solid.ts"),
+        path.join(__dirname, "src/vanilla.ts"),
+        path.join(__dirname, "src/devtools.ts"),
       ],
-    },
-  },
+      outDir: "api",
+    }),
+  ],
   themeConfig: {
     nav: [
       { text: "Guide", link: "/getting-started/overview" },
